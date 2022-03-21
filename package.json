@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@animated-burgers/burger-squeeze": "^1.1.2",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@headlessui/react": "^1.5.0",
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.1",
     "@prisma/client": "^3.11.0",
+    "classnames": "^2.3.1",
     "formidable": "^2.0.1",
     "multiparty": "^4.2.3",
     "mv": "^2.1.1",
@@ -21,6 +24,7 @@
     "next-connect": "^0.12.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
     "serverless-mysql": "^1.5.4",
     "swr": "^1.2.2"
   },
