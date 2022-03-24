@@ -23,25 +23,35 @@ const Navbar = () => {
 							</div>
 							<div className="hidden md:block">
 								<div className="ml-10 flex items-baseline space-x-4">
-									<Link
-										
-										href="/"
-										className="cursor-pointer text-blue-600 font-semibold px-3 py-2 text-md hover:font-black"
-									>
-										Home
-									</Link>
-									<Link
-										href="/about"
-										className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-									>
-										About
-									</Link>
-									<Link
-										href="/upload"
-										className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-									>
-										Upload
-									</Link>
+									<div className={router.pathname == "/" ? "px-6  py-2" : "px-6 py-2"}>
+										<Link
+											
+											href="/"
+											className="cursor-pointer text-blue-600 font-semibold px-3 py-2 text-md hover:font-black"
+										>
+											Home
+										</Link>
+										<div className={router.pathname == "/" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
+									</div>
+									<div className={router.pathname == "/about" ? "px-6  py-2" : "px-6 py-2"}>
+										<Link
+											href="/about"
+											className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+										>
+											About
+										</Link>
+										<div className={router.pathname == "/about" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
+									</div>	
+									<div className={router.pathname == "/upload" ? "px-6  py-2" : "px-6 py-2"}>
+										<Link
+											href="/upload"
+											className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+										>
+											Upload
+										</Link>
+										<div className={router.pathname == "/upload" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
+									</div>
+									
 								</div>
 							</div>
 						</div>
