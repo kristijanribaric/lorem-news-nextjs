@@ -15,39 +15,38 @@ const Navbar = () => {
 				<div className="w-full">
 					<div className="flex items-center h-20 w-full bg-black">
 						<div className="flex items-center  mx-20  justify-between w-full">
-							<div className="flex justify-center items-center flex-shrink-0 ">
-								<Image src='/news_logo_red.png' alt='lorem news logo' width={64} height={64}/>
-								<h1 className=" ml-4 font-bold text-xl cursor-pointer">
-									Lorem <span className="text-red-700">News</span>
-								</h1>
-							</div>
+							<Link href="/">
+								<div className="flex justify-center items-center flex-shrink-0 ">
+									<Image src='/news_logo_red.png' alt='lorem news logo' width={64} height={64}/>
+									<h1 className=" ml-4 font-bold text-xl cursor-pointer">
+										Lorem <span className="text-red-700">News</span>
+									</h1>
+								</div>
+							</Link>
+							
 							<div className="hidden md:block">
 								<div className="ml-10 flex items-baseline space-x-4">
-									<div className={router.pathname == "/" ? "px-6  py-2" : "px-6 py-2"}>
-										<Link
-											
+									<div className="px-4 py-2  ">
+										<Link						
 											href="/"
-											className="cursor-pointer text-blue-600 font-semibold px-3 py-2 text-md hover:font-black"
 										>
-											Home
+											<span className="cursor-pointer  px-8 py-2 " >Home</span>	
 										</Link>
 										<div className={router.pathname == "/" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
 									</div>
-									<div className={router.pathname == "/about" ? "px-6  py-2" : "px-6 py-2"}>
-										<Link
+									<div className="px-4 py-2  ">
+										<Link						
 											href="/about"
-											className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
 										>
-											About
+											<span className="cursor-pointer  px-8 py-2 " >About</span>	
 										</Link>
 										<div className={router.pathname == "/about" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
-									</div>	
-									<div className={router.pathname == "/upload" ? "px-6  py-2" : "px-6 py-2"}>
-										<Link
+									</div>
+									<div className="px-4 py-2  ">
+										<Link						
 											href="/upload"
-											className="cursor-pointer hover:bg-blue-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
 										>
-											Upload
+											<span className="cursor-pointer  px-8 py-2 " >Upload</span>	
 										</Link>
 										<div className={router.pathname == "/upload" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
 									</div>

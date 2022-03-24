@@ -4,6 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import Layout from '../../components/Layout';
 
 
 const upload = () => {
@@ -62,115 +63,116 @@ const upload = () => {
     }
 
   return (
-      <div className=' w-full md:w-2/3 lg:w-3/5 m-auto '>
-      <h1 className='text-2xl font-semibold'>Article Upload form</h1>
-      <form className='my-5 px-5 grid grid-cols-1 gap-5' onSubmit={handleSubmit}>
-        <label>
-            {/* <input 
-            className='border-2 border-slate-700 rounded-lg ml-4'
-            type="text" 
-            name="title" 
-            value={inputs.title || ""} 
-            onChange={handleChange}
-        /> */}
-        <TextField
-            value={inputs.title || ""}
-            error={inputs.title === ""}
-            id="filled-error-helper-text"
-            label="Title"
-            helperText={inputs.title === "" ? 'Empty!' : ' '}
-            onChange={handleChange}
-            name="title" 
-            variant="filled"
-            fullWidth
-            color="secondary" 
-            
-        />
-        </label>
-        <label>
-            {/* <input 
+      <Layout>
+        <div className=' w-full md:w-2/3 lg:w-3/5 m-auto '>
+        <h1 className='text-2xl font-semibold'>Article Upload form</h1>
+        <form className='my-5 px-5 grid grid-cols-1 gap-5' onSubmit={handleSubmit}>
+            <label>
+                {/* <input 
                 className='border-2 border-slate-700 rounded-lg ml-4'
                 type="text" 
-                name="short" 
-                value={inputs.short || ""} 
+                name="title" 
+                value={inputs.title || ""} 
                 onChange={handleChange}
             /> */}
             <TextField
-                id="filled-multiline-static"
-                label="Short"
-                name="short" 
-                multiline
-                rows={6}
-                variant="filled"
+                value={inputs.title || ""}
+                error={inputs.title === ""}
+                id="filled-error-helper-text"
+                label="Title"
+                helperText={inputs.title === "" ? 'Empty!' : ' '}
                 onChange={handleChange}
-                value={inputs.short || ""} 
+                name="title" 
+                variant="filled"
                 fullWidth
                 color="secondary" 
+                
             />
-        </label>
-        <label>
-            {/* <input 
-                className='border-2 border-slate-700 rounded-lg ml-4'
-                type="text" 
-                name="long" 
-                value={inputs.long || ""} 
-                onChange={handleChange}
-            /> */}
-            <TextField
-                id="filled-multiline-static"
-                label="Long"
-                name="long" 
-                multiline
-                rows={12}
-                variant="filled"
-                onChange={handleChange}
-                value={inputs.long || ""} 
-                fullWidth
-                color="secondary" 
-            />
-        </label>
-        <label>
-            <input 
-                type="file" 
-                name="image" 
-                accept=".jpeg,.jpg,.png"
-                onChange={handleImgChange} 
-                style={{display: 'none',}}
-            />
-            <Button variant="contained" component="span" >
-             Upload <PhotoCamera className='ml-2'/>
-            </Button>
-        </label>
-        <img src={createObjectURL} />
-        <label>
-            {/* <input 
-                className='border-2 border-slate-700 rounded-lg ml-4'
-                type="text" 
-                name="category" 
-                value={inputs.category || ""} 
-                onChange={handleChange}
-            /> */}
-            <TextField
-                id="filled-select-currency"
-                select
-                label="Category"
-                name="category"
-                value={inputs.category || ""}
-                onChange={handleChange}
-                helperText="Please select the category of the article"
-                variant="filled"
-                color="secondary" 
-                >
-                <MenuItem key="Sport" value="Sport">Sport</MenuItem>
-                <MenuItem key="Culture" value="Culture">Culture</MenuItem>
-                <MenuItem key="Politics" value="Politics">Politics</MenuItem>
-                <MenuItem key="Entertainment" value="Entertainment">Entertainment</MenuItem>
-            </TextField>
-        </label>
-        <input className='bg-black px-6 py-2 text-white rounded-lg hover:invert' type="submit" />
-    </form>
-      </div>
-    
+            </label>
+            <label>
+                {/* <input 
+                    className='border-2 border-slate-700 rounded-lg ml-4'
+                    type="text" 
+                    name="short" 
+                    value={inputs.short || ""} 
+                    onChange={handleChange}
+                /> */}
+                <TextField
+                    id="filled-multiline-static"
+                    label="Short"
+                    name="short" 
+                    multiline
+                    rows={6}
+                    variant="filled"
+                    onChange={handleChange}
+                    value={inputs.short || ""} 
+                    fullWidth
+                    color="secondary" 
+                />
+            </label>
+            <label>
+                {/* <input 
+                    className='border-2 border-slate-700 rounded-lg ml-4'
+                    type="text" 
+                    name="long" 
+                    value={inputs.long || ""} 
+                    onChange={handleChange}
+                /> */}
+                <TextField
+                    id="filled-multiline-static"
+                    label="Long"
+                    name="long" 
+                    multiline
+                    rows={12}
+                    variant="filled"
+                    onChange={handleChange}
+                    value={inputs.long || ""} 
+                    fullWidth
+                    color="secondary" 
+                />
+            </label>
+            <label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    accept=".jpeg,.jpg,.png"
+                    onChange={handleImgChange} 
+                    style={{display: 'none',}}
+                />
+                <Button variant="contained" component="span" >
+                Upload <PhotoCamera className='ml-2'/>
+                </Button>
+            </label>
+            <img src={createObjectURL} />
+            <label>
+                {/* <input 
+                    className='border-2 border-slate-700 rounded-lg ml-4'
+                    type="text" 
+                    name="category" 
+                    value={inputs.category || ""} 
+                    onChange={handleChange}
+                /> */}
+                <TextField
+                    id="filled-select-currency"
+                    select
+                    label="Category"
+                    name="category"
+                    value={inputs.category || ""}
+                    onChange={handleChange}
+                    helperText="Please select the category of the article"
+                    variant="filled"
+                    color="secondary" 
+                    >
+                    <MenuItem key="Sport" value="Sport">Sport</MenuItem>
+                    <MenuItem key="Culture" value="Culture">Culture</MenuItem>
+                    <MenuItem key="Politics" value="Politics">Politics</MenuItem>
+                    <MenuItem key="Entertainment" value="Entertainment">Entertainment</MenuItem>
+                </TextField>
+            </label>
+            <input className='bg-black px-6 py-2 text-white rounded-lg hover:invert' type="submit" />
+        </form>
+        </div>
+      </Layout>
   )
 }
 
