@@ -6,8 +6,11 @@ import '@animated-burgers/burger-squeeze/dist/styles.css'
 import styles from '../styles/Navbar.module.css'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+	const { data: session, status } = useSession();
 	const router = useRouter();
   return (
     <div>
@@ -44,13 +47,29 @@ const Navbar = () => {
 									</div>
 									<div className="px-4 py-2  ">
 										<Link						
-											href="/upload"
+											href={session ? "/upload" : "/api/auth/signin"}
 										>
 											<span className="cursor-pointer  px-8 py-2 " >Upload</span>	
 										</Link>
 										<div className={router.pathname == "/upload" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
 									</div>
-									
+
+									{!session && <div className="px-4 py-2  ">
+										<Link						
+											href="/api/auth/signin"
+										>
+											<span className="cursor-pointer  px-2 py-1 bg-red-700" >Log in</span>	
+										</Link>
+									</div>}
+									{session && <div className="px-4 py-2  ">
+										<Link						
+											href="/myarticles"
+										>
+											<span className="cursor-pointer  px-8 py-2 " >My Articles</span>	
+										</Link>
+										<div className={router.pathname == "/myarticles" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
+									</div>}
+									{session && <div><p>{session.user.name}({session.user.email})</p><button className='px-2 py-1 bg-red-700' onClick={() => signOut()}><a>Log out</a> </button></div>}
 								</div>
 							</div>
 						</div>
@@ -109,7 +128,7 @@ const Navbar = () => {
 								</Link>
 
 								<Link
-									href="/upload"
+									href={session ? "/upload" : "/api/auth/signin"}
 									
 								>
 									<div className={router.pathname == "/upload" ? styles.active : styles.btn}>
@@ -117,7 +136,26 @@ const Navbar = () => {
 										<em></em>
 								</div>
 								</Link>
+
+								{!session && <Link
+									href="/api/auth/signin"
+									
+								>
+									<div className={styles.btn}>
+										<span className=" ">Log in</span>
+										<em></em>
+								</div>
+								</Link>}
 								
+								{session && <Link
+									href="/myarticles"
+									
+								>
+									<div className={router.pathname == "/myarticles" ? styles.active : styles.btn}>
+										<span className=" ">My Articles</span>
+										<em></em>
+								</div>
+								</Link>}
 							</div>
 						</div>
 					)}

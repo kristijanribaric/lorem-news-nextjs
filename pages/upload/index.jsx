@@ -5,17 +5,26 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Layout from '../../components/Layout';
+import { useSession } from 'next-auth/react';
 
 
 const upload = () => {
     const [inputs, setInputs] = useState({});
     const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
+    const { data: session, status } = useSession();
+    
 
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setInputs(values => ({...values, [name]: value}))
+    }
+
+    const handleLastChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({...values, [name]: value,["authorId"]: session.user.email,["authorName"]: session.user.name}))
     }
 
     const handleImgChange = (event) => {
@@ -58,6 +67,8 @@ const upload = () => {
         event.preventDefault();
         uploadImage()
         console.log(inputs);
+        // setInputs(values => ({...values, ["authorId"]: session.user.email}))
+        // console.log(inputs);
         uploadArticle(inputs);
         alert("Article successfully submited!");
     }
@@ -158,7 +169,7 @@ const upload = () => {
                     label="Category"
                     name="category"
                     value={inputs.category || ""}
-                    onChange={handleChange}
+                    onChange={handleLastChange}
                     helperText="Please select the category of the article"
                     variant="filled"
                     color="secondary" 
