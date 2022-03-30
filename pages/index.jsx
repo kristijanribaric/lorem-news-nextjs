@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Article from '../components/Article'
-import { Prisma} from '@prisma/client'
 import  prisma  from '../db'
 import Layout from '../components/Layout'
 

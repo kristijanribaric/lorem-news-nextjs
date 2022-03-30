@@ -8,7 +8,7 @@ import Layout from '../../components/Layout';
 import { useSession } from 'next-auth/react';
 
 
-const upload = () => {
+const Upload = () => {
     const [inputs, setInputs] = useState({});
     const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
@@ -185,4 +185,4 @@ const upload = () => {
   )
 }
 
-export default upload
+export default Upload

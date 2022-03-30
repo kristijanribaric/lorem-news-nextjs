@@ -8,7 +8,7 @@ import { useSession, getSession } from 'next-auth/react';
 
 
 
-export default function myarticles({initialArticles}) {
+export default function Myarticles({initialArticles}) {
     const { data: session, status } = useSession();
     return (
         <Layout>

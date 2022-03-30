@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import Link from "next/link"
 import HeaderMeta from "../../../components/HeaderMeta"
-import {Prisma} from '@prisma/client'
 import Image from 'next/image'
 import prisma from '../../../db'
 import Layout from "../../../components/Layout"
@@ -9,7 +8,7 @@ import Layout from "../../../components/Layout"
 
 
 
-const article = ({initialArticle}) => {
+const ArticleS = ({initialArticle}) => {
     const router = useRouter()
     const {id} = router.query
   return (
@@ -60,4 +59,4 @@ export const getStaticPaths = async () => {
 
 
 
-export default article
+export default ArticleS
