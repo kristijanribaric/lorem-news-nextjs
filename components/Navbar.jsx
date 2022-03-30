@@ -168,7 +168,7 @@ const Navbar = () => {
 								</button>}
 
 								{session &&
-								 <div className='text-center text-gray-400 pb-2'><p>{session.user.name} ({session.user.email})</p></div>}
+								 <div className='text-center  text-gray-400 pb-2'><p>{session.user.name} ({session.user.email})</p></div>}
 							</div>
 						</div>
 					)}
