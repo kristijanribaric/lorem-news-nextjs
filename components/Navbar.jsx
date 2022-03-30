@@ -20,7 +20,7 @@ const Navbar = () => {
 						<div className="flex items-center  mx-20  justify-between w-full">
 							<Link href="/">
 								<div className="flex justify-center items-center flex-shrink-0 ">
-									<Image src='/news_logo_red.png' alt='lorem news logo' width={64} height={64}/>
+									<Image src='/news_logo_red.png' alt='lorem news logo' width={80} height={80}/>
 									<h1 className=" ml-4 font-bold text-xl cursor-pointer">
 										Lorem <span className="text-red-700">News</span>
 									</h1>
@@ -74,14 +74,14 @@ const Navbar = () => {
 							</div>
 						</div>
 						<div className="mr-10 flex md:hidden ">
+						
 						<button
 								onClick={() => setIsOpen(!isOpen)}
 								type="button"
 								className=""
 								aria-controls="mobile-menu"
 								aria-expanded="false"
-							>
-								<span className="sr-only">Open main menu</span>
+							>							
 								{!isOpen ? (
 									<Burger />
 								) : (
@@ -119,7 +119,6 @@ const Navbar = () => {
 								</Link>
 								<Link
 									href="/about"
-									
 								>
 									<div className={router.pathname == "/about" ? styles.active : styles.btn}>
 										<span className=" ">About</span>
@@ -156,6 +155,20 @@ const Navbar = () => {
 										<em></em>
 								</div>
 								</Link>}
+
+								{session && <button
+									onClick={() => signOut()}
+									className={styles.btn}
+									
+								>
+									
+										<span className=" ">Log out</span>
+										<em></em>
+
+								</button>}
+
+								{session &&
+								 <div className='text-center text-gray-400 pb-2'><p>{session.user.name} ({session.user.email})</p></div>}
 							</div>
 						</div>
 					)}

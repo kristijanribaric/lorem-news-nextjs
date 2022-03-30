@@ -16,7 +16,6 @@ short   String @db.Text
 long String @db.Text
 category String
 image String?
-authorName  String?
 authorId  String?
 author    User?   @relation(fields: [authorId], references: [id])
 

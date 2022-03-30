@@ -14,7 +14,7 @@ export default function myarticles({initialArticles}) {
         <Layout>
         <div className='w-2/3 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.authorName} />)}
+            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} />)}
             </div>
             
             
@@ -35,8 +35,13 @@ export async function getServerSideProps({ req, res }) {
 
     const articles = await prisma.articles.findMany({
         where: {
-            authorId: session.user.email,
-        }
+            author: { email: session.user.email },
+        },
+        include: {
+            author: {
+              select: { name: true },
+            },
+        },
     });
     console.log(articles)
     return {

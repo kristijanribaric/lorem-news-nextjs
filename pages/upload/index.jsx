@@ -24,7 +24,7 @@ const upload = () => {
     const handleLastChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setInputs(values => ({...values, [name]: value,["authorId"]: session.user.email,["authorName"]: session.user.name}))
+        setInputs(values => ({...values, [name]: value,["authorId"]: session.user.id,["authorName"]: session.user.name}))
     }
 
     const handleImgChange = (event) => {
@@ -67,8 +67,6 @@ const upload = () => {
         event.preventDefault();
         uploadImage()
         console.log(inputs);
-        // setInputs(values => ({...values, ["authorId"]: session.user.email}))
-        // console.log(inputs);
         uploadArticle(inputs);
         alert("Article successfully submited!");
     }
@@ -169,7 +167,7 @@ const upload = () => {
                     label="Category"
                     name="category"
                     value={inputs.category || ""}
-                    onChange={handleLastChange}
+                    onChange={handleChange}
                     helperText="Please select the category of the article"
                     variant="filled"
                     color="secondary" 

@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from '../../../db'
+import { getSession } from 'next-auth/react';
 
 
 export default async (req, res) => {
@@ -9,7 +10,17 @@ export default async (req, res) => {
   
     try {
       const article = JSON.parse(req.body);
-      const savedArticle = await prisma.articles.create({ data: article });
+      const session = await getSession({ req });
+      const savedArticle = await prisma.articles.create({ 
+        data: {
+          title: article.title,
+          short: article.short,
+          long: article.long,
+          category: article.category,
+          image: article.image,
+          author: { connect: { email: session?.user?.email } }
+          
+        } });
       res.status(200).json(savedArticle);
     } catch (err) {
       res.status(400).json({ message: 'Something went wrong' });
@@ -17,29 +28,3 @@ export default async (req, res) => {
   };
 
 
-// var mv = require('mv');
-
-// export const config = {
-//     api: {
-//        bodyParser: false,
-//     }
-// };
- 
-// export default async (req, res) => {
-    
-//     const data = await new Promise((resolve, reject) => {
-//        const form = new IncomingForm()
-       
-//         form.parse(req, (err, fields, files) => {
-//             if (err) return reject(err)
-//             console.log(fields, files)
-//             console.log(files.file.filepath)
-//             var oldPath = files.file.filepath;
-//             var newPath = `./public/imgs/${files.file.originalFilename}`;
-//             mv(oldPath, newPath, function(err) {
-//             });
-//             res.status(200).json({ fields, files })
-//         })
-//     })
-    
-// }
