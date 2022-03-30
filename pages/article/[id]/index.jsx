@@ -19,7 +19,7 @@ const article = ({initialArticle}) => {
           <div className="w-2/3 lg:w-3/5 m-auto">
           <Image src={`/imgs/${initialArticle.image}`} alt={initialArticle.image} placeholder="blur" layout="responsive" width={170} height={100} sizes="50vw"  blurDataURL={`/imgs/${initialArticle.image}`} />
           </div>
-          <p className="font-thin text-gray-500">Author: {initialArticle.authorName}</p>
+          <p className="font-thin text-gray-500">Author: {initialArticle.author.name}</p>
           <h1 className="font-bold text-center text-2xl">{initialArticle.title}</h1>
          
           <p className="w-2/3 mt-6 m-auto whitespace-pre-line">{initialArticle.long}</p>
@@ -35,6 +35,11 @@ export const getStaticProps = async (context) => {
     where: {
       id: parseInt(context.params.id),
     },
+    include: {
+      author: {
+        select: { name: true },
+      }
+    }
   })
   return {
     props : { initialArticle }
