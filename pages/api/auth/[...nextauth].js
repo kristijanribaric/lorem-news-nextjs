@@ -11,18 +11,18 @@ export default authHandler;
 const options = {
   providers: [
     GitHubProvider({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
     }),
 
   ],
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXT_PUBLIC_SECRET,
+  secret: process.env.SECRET,
 };
 
 
