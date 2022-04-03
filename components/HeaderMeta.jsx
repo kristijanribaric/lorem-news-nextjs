@@ -14,7 +14,7 @@ const HeaderMeta = ({title,description}) => {
 
 
 HeaderMeta.defaultProps = {
-    title: 'Lorem News',
+    title: 'Lorem News ',
     description: 'Lorem News - Your daily source of unbiased news',
   }
 
