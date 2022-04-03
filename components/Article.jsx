@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const Article = ({id,title,image,author}) => {
   return (
-    <Link href='/article/[id]' as={`/article/${id}`}>
+    <Link href='/article/[id]' as={`/article/${id}`} passHref>
         <div className='cursor-pointer'>
         <Image src={`/imgs/${image}`} alt={image} placeholder="blur" layout="responsive" width={170} height={100} sizes="50vw"  blurDataURL={`/imgs/${image}`} />
         <h1 className='font-bold text-xl'>{title}</h1>

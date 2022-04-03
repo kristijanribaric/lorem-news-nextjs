@@ -5,6 +5,9 @@ import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google'
 import prisma from '../../../db'
 
+const authHandler = (req, res) => NextAuth(req, res, options);
+export default authHandler;
+
 const options = {
   providers: [
     GitHubProvider({
@@ -23,6 +26,4 @@ const options = {
   secret: process.env.SECRET,
 };
 
-const authHandler = (req, res) => NextAuth(req, res, options);
-export default authHandler;
 

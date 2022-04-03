@@ -18,8 +18,8 @@ const Navbar = () => {
 				<div className="w-full">
 					<div className="flex items-center h-20 w-full bg-black">
 						<div className="flex items-center  mx-20  justify-between w-full">
-							<Link href="/">
-								<div className="flex justify-center items-center flex-shrink-0 ">
+							<Link href="/" passHref>
+								<div className="flex justify-center items-center flex-shrink-0 cursor-pointer">
 									<Image src='/news_logo_red.png' alt='lorem news logo' width={80} height={80}/>
 									<h1 className=" ml-4 font-bold text-xl cursor-pointer">
 										Lorem <span className="text-red-700">News</span>
@@ -32,6 +32,7 @@ const Navbar = () => {
 									<div className="px-4 py-2  ">
 										<Link						
 											href="/"
+											passHref
 										>
 											<span className="cursor-pointer  px-8 py-2 " >Home</span>	
 										</Link>
@@ -40,6 +41,7 @@ const Navbar = () => {
 									<div className="px-4 py-2  ">
 										<Link						
 											href="/about"
+											passHref
 										>
 											<span className="cursor-pointer  px-8 py-2 " >About</span>	
 										</Link>
@@ -48,6 +50,7 @@ const Navbar = () => {
 									<div className="px-4 py-2  ">
 										<Link						
 											href={session ? "/upload" : "/api/auth/signin"}
+											passHref
 										>
 											<span className="cursor-pointer  px-8 py-2 " >Upload</span>	
 										</Link>
@@ -57,6 +60,7 @@ const Navbar = () => {
 									{!session && <div className="px-4 py-2  ">
 										<Link						
 											href="/api/auth/signin"
+											passHref
 										>
 											<span className="cursor-pointer  px-2 py-1 bg-red-700" >Log in</span>	
 										</Link>
@@ -64,6 +68,7 @@ const Navbar = () => {
 									{session && <div className="px-4 py-2  ">
 										<Link						
 											href="/myarticles"
+											passHref
 										>
 											<span className="cursor-pointer  px-8 py-2 " >My Articles</span>	
 										</Link>
@@ -109,6 +114,7 @@ const Navbar = () => {
 							>
 								<Link
 									href="/"
+									passHref
 									
 								>	
 								<div className={router.pathname == "/" ? styles.active : styles.btn}>
@@ -119,6 +125,7 @@ const Navbar = () => {
 								</Link>
 								<Link
 									href="/about"
+									passHref
 								>
 									<div className={router.pathname == "/about" ? styles.active : styles.btn}>
 										<span className=" ">About</span>
@@ -128,6 +135,7 @@ const Navbar = () => {
 
 								<Link
 									href={session ? "/upload" : "/api/auth/signin"}
+									passHref
 									
 								>
 									<div className={router.pathname == "/upload" ? styles.active : styles.btn}>
@@ -138,6 +146,7 @@ const Navbar = () => {
 
 								{!session && <Link
 									href="/api/auth/signin"
+									passHref
 									
 								>
 									<div className={styles.btn}>
@@ -148,6 +157,7 @@ const Navbar = () => {
 								
 								{session && <Link
 									href="/myarticles"
+									passHref
 									
 								>
 									<div className={router.pathname == "/myarticles" ? styles.active : styles.btn}>

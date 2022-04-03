@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Layout from '../../components/Layout';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image'
 
 
 const Upload = () => {
@@ -152,7 +153,7 @@ const Upload = () => {
                 Upload <PhotoCamera className='ml-2'/>
                 </Button>
             </label>
-            <img src={createObjectURL} />
+            {createObjectURL && <Image src={createObjectURL} alt="uploaded image" placeholder="blur" layout="responsive" width={170} height={100} sizes="50vw"  blurDataURL={createObjectURL} />}
             <label>
                 {/* <input 
                     className='border-2 border-slate-700 rounded-lg ml-4'
