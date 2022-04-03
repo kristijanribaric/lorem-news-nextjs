@@ -6,7 +6,7 @@ import '@animated-burgers/burger-squeeze/dist/styles.css'
 import styles from '../styles/Navbar.module.css'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut, useSession, signIn } from 'next-auth/react';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -58,12 +58,7 @@ const Navbar = () => {
 									</div>
 
 									{!session && <div className="px-4 py-2  ">
-										<Link						
-											href="/api/auth/signin"
-											passHref
-										>
-											<span className="cursor-pointer  px-2 py-1 bg-red-700" >Log in</span>	
-										</Link>
+										<button onClick={signIn}>Sign in</button>
 									</div>}
 									{session && <div className="px-4 py-2  ">
 										<Link						
