@@ -15,4 +15,4 @@ else {
 	prisma = global.prisma
 }
 
-export default prisma
+export default prisma;
