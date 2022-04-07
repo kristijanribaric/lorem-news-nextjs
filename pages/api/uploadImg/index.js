@@ -4,13 +4,13 @@ import { promises as fs } from 'fs'
 
 var mv = require('mv');
 
-export const config = {
+export const  configer = {
     api: {
        bodyParser: false,
     }
 };
  
-export default async (req, res) => {
+const uploader = async (req, res) => {
     
     const data = await new Promise((resolve, reject) => {
        const form = new IncomingForm()
@@ -28,3 +28,5 @@ export default async (req, res) => {
     })
     
 }
+
+export default uploader;

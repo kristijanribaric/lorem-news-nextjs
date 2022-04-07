@@ -3,7 +3,7 @@ import prisma from '../../../db'
 import { getSession } from 'next-auth/react';
 
 
-export default async (req, res) => {
+const uploaderForm = async (req, res) => {
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method not allowed' });
     }
@@ -27,4 +27,4 @@ export default async (req, res) => {
     }
   };
 
-
+  export default uploaderForm;
