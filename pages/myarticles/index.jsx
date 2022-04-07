@@ -9,7 +9,7 @@ import { useSession, getSession } from 'next-auth/react';
 
 
 export default function Myarticles({initialArticles}) {
-    const { session , status } = useSession();
+    const { data: session , status } = useSession();
     return (
         <Layout>
         <div className='w-2/3 m-auto'>
