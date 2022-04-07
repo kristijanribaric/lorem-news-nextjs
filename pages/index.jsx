@@ -9,11 +9,11 @@ import Layout from '../components/Layout'
 
 export default function Home({initialArticles}) {
   // const hotTopics = initialArticles[Math.floor(Math.random() * initialArticles.length)]
-  const hotTopics = initialArticles[4];
+  // const hotTopics = initialArticles[4];
   return (
     <Layout>
       <div className='w-2/3 m-auto'>
-        <div className='relative mb-12'>
+        {/* <div className='relative mb-12'>
           <h1>Hot Topics</h1>
           <div>
             <div className='bg-gradient-to-tr from-black via-black to-black/60' >
@@ -22,7 +22,7 @@ export default function Home({initialArticles}) {
             <p className='absolute z-10 text-white bottom-10 font-thin opacity-80 w-1/3'>{hotTopics.author.name}</p>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} />)}
         </div>

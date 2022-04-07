@@ -13,7 +13,7 @@ const Upload = () => {
     const [inputs, setInputs] = useState({});
     const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
-    const { data: session, status } = useSession();
+    const { data, status } = useSession();
     
 
     const handleChange = (event) => {
