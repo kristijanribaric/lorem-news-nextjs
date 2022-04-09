@@ -29,52 +29,52 @@ const ArticleS = ({initialArticle}) => {
 }
 
 
-// export const getStaticProps = async (context) => {
-//   const initialArticle = await prisma.articles.findUnique({
-//     where: {
-//       id: context.params.id,
-//     },
-//     include: {
-//       author: {
-//         select: { name: true, email: true },
-//       },
-//     }
-//   })
-//   return {
-//     props : { initialArticle }
-//   }
-// }
-
-// export const getStaticPaths = async () => {
-//   const articles = await prisma.articles.findMany()
-  
-//   const ids = articles.map(article => article.id)
-//   const paths = ids.map(id => ({params: {id: id.toString()}}))
-//   return {
-//       paths,
-//       fallback : false
-//   }
-
-// }
-
-
-export async function getServerSideProps({ params }) {
-  const article = await prisma.articles.findUnique({
+export const getStaticProps = async (context) => {
+  const initialArticle = await prisma.articles.findUnique({
     where: {
-      id: params?.id,
+      id: context.params.id,
     },
     include: {
       author: {
         select: { name: true, email: true },
       },
-    },
-  });
+    }
+  })
   return {
-      props: {
-          initialArticle : article
-      }
+    props : { initialArticle }
   }
 }
+
+export const getStaticPaths = async () => {
+  const articles = await prisma.articles.findMany()
+  
+  const ids = articles.map(article => article.id)
+  const paths = ids.map(id => ({params: {id: id.toString()}}))
+  return {
+      paths,
+      fallback : true
+  }
+
+}
+
+
+// export async function getServerSideProps({ params }) {
+//   const article = await prisma.articles.findUnique({
+//     where: {
+//       id: params?.id,
+//     },
+//     include: {
+//       author: {
+//         select: { name: true, email: true },
+//       },
+//     },
+//   });
+//   return {
+//       props: {
+//           initialArticle : article
+//       }
+//   }
+// }
 
 
 export default ArticleS
