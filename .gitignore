@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/public/imgs
+/public/imgs/*
 
 # next.js
 /.next/

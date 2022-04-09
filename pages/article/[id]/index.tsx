@@ -32,7 +32,7 @@ const ArticleS = ({initialArticle}) => {
 export const getStaticProps = async (context) => {
   const initialArticle = await prisma.articles.findUnique({
     where: {
-      id: parseInt(context.params.id),
+      id: context.params.id,
     },
     include: {
       author: {

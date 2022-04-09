@@ -17,8 +17,6 @@ const uploader = async (req, res) => {
        
         form.parse(req, (err, fields, files) => {
             if (err) return reject(err)
-            console.log(fields, files)
-            console.log(files.file.filepath)
             var oldPath = files.file.filepath;
             var newPath = `./public/imgs/${files.file.originalFilename}`;
             mv(oldPath, newPath, function(err) {
