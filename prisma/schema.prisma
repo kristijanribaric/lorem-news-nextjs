@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Articles {
-id      Int   @default(autoincrement()) @id
-title    String
-short   String @db.Text
-long String @db.Text
-category String
-image String?
-authorId  String?
-author    User?   @relation(fields: [authorId], references: [id])
+id                  String  @id @default(cuid())
+title               String
+short               String @db.Text
+long                String @db.Text
+category            String
+image               String?
+authorId            String?
+author              User?   @relation(fields: [authorId], references: [id])
 
 }
 

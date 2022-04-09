@@ -10,7 +10,16 @@ import Image from 'next/image'
 
 
 const Upload = () => {
-    const [inputs, setInputs] = useState({});
+    type List = [Inputs, Function]
+        
+    
+    interface Inputs {
+        title?: string;
+        short?: string;
+        long?: string;
+        category?: string;
+    }
+    const [inputs, setInputs]: List = useState({});
     const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
     const { data: session, status } = useSession();
@@ -22,11 +31,11 @@ const Upload = () => {
         setInputs(values => ({...values, [name]: value}))
     }
 
-    const handleLastChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name]: value,["authorId"]: session.user.id,["authorName"]: session.user.name}))
-    }
+    // const handleLastChange = (event) => {
+    //     const name = event.target.name;
+    //     const value = event.target.value;
+    //     setInputs(values => ({...values, [name]: value,["authorId"]: session.user.id,["authorName"]: session.user.name}))
+    // }
 
     const handleImgChange = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -37,7 +46,6 @@ const Upload = () => {
 
             const name = event.target.name;
             const value = event.target.files[0].name
-            console.log(event.target.files[0].name)
             setInputs(values => ({...values, [name]: value}))
         }
     };
@@ -56,7 +64,6 @@ const Upload = () => {
 
     const uploadImage = async () => {        
         const body = new FormData();
-        console.log("file", image)
         body.append("file", image);    
         const response = await fetch("/api/uploadImg", {
           method: "POST",
@@ -67,7 +74,6 @@ const Upload = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         uploadImage()
-        console.log(inputs);
         uploadArticle(inputs);
         alert("Article successfully submited!");
     }
