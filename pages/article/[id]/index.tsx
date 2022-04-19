@@ -27,7 +27,7 @@ interface Article {
   category: Category
 }
 
-const ArticleS = (initialArticle : Article ) => {
+const ArticleS = (initialArticle : Article = null ) => {
     const router = useRouter()
     const {id} = router.query
   return (
@@ -68,7 +68,6 @@ export const getStaticProps = async (context) => {
   })
   if (initialArticle) {
     const ArticleParsed = JSON.parse(JSON.stringify(initialArticle));
-    console.log(ArticleParsed)
     return {
       props :   ArticleParsed
     }
