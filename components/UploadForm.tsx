@@ -116,7 +116,7 @@ const UploadForm = ({
               <Input
                 name="short"
                 type="textarea"
-                label="short"
+                label="Short description"
                 placeholder="Please enter short desc"
                 disabled={disabled}
                 rows={5}
@@ -125,7 +125,7 @@ const UploadForm = ({
               <Input
                 name="long"
                 type="textarea"
-                label="Price per night"
+                label="Long Description"
                 placeholder="Please enter long desc"
                 disabled={disabled}
                 rows={10}
@@ -135,7 +135,7 @@ const UploadForm = ({
                 name="category"
                 type="number"
                 label="Category"
-                
+                placeholder="2"
                 min="1"
                 max="4"
                 disabled={disabled}

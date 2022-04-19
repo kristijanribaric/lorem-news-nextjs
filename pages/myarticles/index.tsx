@@ -14,7 +14,7 @@ export default function Myarticles({initialArticles}) {
         <Layout>
         <div className='w-2/3 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} />)}
+            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} date={article.publishedDate} />)}
             </div>
             
             
@@ -30,7 +30,12 @@ export async function getServerSideProps({ req, res }) {
     const session = await getSession({ req });
     if (!session) {
         res.statusCode = 403;
-        return { props: { initialArticles: [] } };
+        return {
+            redirect: {
+              destination: '/api/auth/signin',
+              permanent: false,
+            },
+        };
     }
 
     const articles = await prisma.articles.findMany({
@@ -46,7 +51,7 @@ export async function getServerSideProps({ req, res }) {
     console.log(articles)
     return {
         props: {
-            initialArticles : articles
+            initialArticles : JSON.parse(JSON.stringify(articles))
         }
     }
 }
