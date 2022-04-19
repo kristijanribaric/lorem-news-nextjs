@@ -41,7 +41,7 @@ const ArticleS = (initialArticle : Article = null ) => {
 </svg>}
           </div>
           <p className="font-thin text-gray-500">Author: {initialArticle?.author.name ?? " "}</p>
-          <p className="font-thin text-gray-500 text-right">{new Date(initialArticle?.publishedDate).toLocaleDateString("hr-HR")}</p>
+          <p className="font-thin text-gray-500 text-right">{new Date(initialArticle?.publishedDate).toLocaleDateString("hr-HR") ?? " "}</p>
           <h1 className="font-bold text-center text-2xl">{initialArticle?.title ?? " "}</h1>
          
           <p className="w-2/3 mt-6 m-auto whitespace-pre-line">{initialArticle?.long ?? " "}</p>
