@@ -49,7 +49,7 @@ const Navbar = () => {
 									</div>
 									<div className="px-4 py-2  ">
 										<Link						
-											href={session ? "/upload" : "/api/auth/signin"}
+											href="/upload"
 											passHref
 										>
 											<span className="cursor-pointer  px-8 py-2 " >Upload</span>	

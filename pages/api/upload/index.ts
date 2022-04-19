@@ -9,6 +9,7 @@ const uploaderForm = async (req, res) => {
     }
   
     try {
+
       const article = JSON.parse(req.body);
       const session = await getSession({ req });
       const savedArticle = await prisma.articles.create({ 
@@ -16,9 +17,10 @@ const uploaderForm = async (req, res) => {
           title: article.title,
           short: article.short,
           long: article.long,
-          category: article.category,
+          category: { connect: {id: article.category } },
           image: article.image,
-          author: { connect: { email: session?.user?.email } }
+          author: { connect: { email: session?.user?.email } },
+          publishedDate: new Date()
           
         } });
       res.status(200).json(savedArticle);

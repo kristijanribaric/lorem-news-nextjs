@@ -5,10 +5,12 @@ import Navbar from '../components/Navbar'
 import HeaderMeta from '../components/HeaderMeta'
 import LayoutMain from '../components/LayoutMain'
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 
 
 function MyApp({ Component, pageProps }) {
   return (
+    <>
     <SessionProvider session={pageProps.session}>
       <LayoutMain>
         <AnimatePresence
@@ -20,6 +22,10 @@ function MyApp({ Component, pageProps }) {
         </AnimatePresence>
       </LayoutMain>
     </SessionProvider>
+
+    <Toaster />
+    </>
+    
   
 
   

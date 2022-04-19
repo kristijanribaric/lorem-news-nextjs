@@ -12,11 +12,18 @@ id                  String  @id @default(cuid())
 title               String
 short               String @db.Text
 long                String @db.Text
-category            String
+categoryId          Int?
+category            Category? @relation(fields: [categoryId], references: [id])
 image               String?
 authorId            String?
 author              User?   @relation(fields: [authorId], references: [id])
+publishedDate       DateTime @default(now()) @db.Timestamptz
+}
 
+model Category {
+  id                Int      @id @default(autoincrement())
+  name              String
+  articles          Articles[]
 }
 
 model Account {

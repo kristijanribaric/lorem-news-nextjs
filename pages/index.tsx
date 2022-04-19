@@ -24,7 +24,9 @@ export default function Home({initialArticles}) {
           </div>
         </div> */}
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-        {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} />)}
+        {initialArticles.map(article => {
+          article.publishedDate = article.publishedDate.toString();
+        return <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} date={article.publishedDate} />})}
         </div>
         
         
@@ -42,10 +44,13 @@ export async function getServerSideProps() {
       author: {
         select: { name: true },
       },
+      category: {
+        select: { name: true },
+      },
   }});
   return {
       props: {
-          initialArticles : articles
+          initialArticles : JSON.parse(JSON.stringify(articles))
       }
   }
 }
