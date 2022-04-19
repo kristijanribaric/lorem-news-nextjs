@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { Formik, Form } from 'formik';
-import Input from './Input';
 import ImageUpload from './ImageUpload';
+import { useForm, yupResolver } from '@mantine/form';
+import { NumberInput, TextInput, Button, Box, Group } from '@mantine/core';
+import { Text, useMantineTheme, MantineTheme } from '@mantine/core';
+import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import Image from 'next/image';
+import { showNotification, updateNotification } from '@mantine/notifications';
+import { CheckIcon } from '@modulz/radix-icons';
+import { Cross1Icon } from '@modulz/radix-icons';
 
 const ListingSchema = Yup.object().shape({
   title: Yup.string().trim().required(),
@@ -20,7 +25,7 @@ interface MyFormValues {
   short: string;
   long: string;
   category: number;
-  image: string;
+  image?: string;
 }
 
 interface MyProps {
@@ -30,147 +35,257 @@ interface MyProps {
   onSubmit: Function,
 }
 
-const UploadForm = ({
+const UploadFormTest = ({
   initialValues = null,
   redirectPath = '',
   buttonText = 'Submit',
-  onSubmit = () => null,
+  onSubmit = () => null
 }:MyProps) => {
   const router = useRouter();
 
   const [disabled, setDisabled] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialValues?.image ?? '');
+  const [image, setImage] = useState({ src: null , alt: null});
+  const [updatingPicture, setUpdatingPicture] = useState(false);
+  const [reader, setReader] = useState<FileReader>(null) 
+  const [imageTemp, setImageTemp] = useState<File>(null);
 
-  const upload = async image => {
-    if (!image) return;
+  const upload = async (image:ArrayBuffer|string) => {
+    if (!image) {
+      showNotification({
+        message: "No image to upload",
+        autoClose: 2000,
+        icon: <Cross1Icon />,
+        color: "red"
+      })
+      return;}
 
-    let toastId;
     try {
       setDisabled(true);
-      toastId = toast.loading('Uploading...');
+      showNotification({
+        id: 'upload-image',
+        message: "Uploading...",
+        loading: true,
+        disallowClose: true,
+        autoClose: false,
+      })
       const { data } = await axios.post('/api/uploadImg', { image });
-      setImageUrl(data?.url);
-      toast.success('Successfully uploaded', { id: toastId });
+
+      updateNotification({
+        id: 'upload-image',
+        message: "Successfully uploaded",
+        autoClose: 2000,
+        icon: <CheckIcon />,
+        color: "teal"
+      })
+      
+      return data?.url;
     } catch (e) {
-      toast.error('Unable to upload', { id: toastId });
+      updateNotification({
+        id: 'upload-image',
+        message: "Unable to upload",
+        autoClose: 2000,
+        icon: <Cross1Icon />,
+        color: "red"
+      })
       setImageUrl('');
     } finally {
       setDisabled(false);
     }
   };
 
-  const handleOnSubmit = async (values = null) => {
-    let toastId;
+
+  const uploadArticle = async (values:MyFormValues,url:string) => {
     try {
       setDisabled(true);
-      toastId = toast.loading('Submitting...');
+      showNotification({
+        id: 'upload-article',
+        message: "Submitting...",
+        loading: true,
+        disallowClose: true,
+        autoClose: false,
+      })
       // Submit data
       if (typeof onSubmit === 'function') {
-        await onSubmit({ ...values, image: imageUrl });
+        await onSubmit({ ...values, image: url });
       }
-      toast.success('Successfully submitted', { id: toastId });
+      updateNotification({
+        id: 'upload-article',
+        message: "Article successfully submitted",
+        autoClose: 2000,
+        icon: <CheckIcon />,
+        color: "teal"
+      })
       // Redirect user
       if (redirectPath) {
         router.push(redirectPath);
       }
     } catch (e) {
-      toast.error('Unable to submit', { id: toastId });
+      updateNotification({
+        id: 'upload-article',
+        message: "Unable to submit article",
+        autoClose: 2000,
+        icon: <Cross1Icon />,
+        color: "red"
+      })
       setDisabled(false);
     }
   };
 
-  const { image, ...initialFormValues } = initialValues ?? {
-    image: '',
-    title: '',
-    short: '',
-    long: '',
-    category: 1,
+  const handleOnSubmit = async (values = null) => {
+    const url = await upload(reader.result);
+    uploadArticle(values,url);
+
+    
+  };
+
+
+  const form = useForm({
+    schema: yupResolver(ListingSchema),
+    initialValues: {
+      image: '',
+      title: '',
+      short: '',
+      long: '',
+      category: 1,
+    },
+  });
+
+   const dropzoneChildren = (status: DropzoneStatus) => (
+    <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
+     
+  
+      <div>
+        <Text size="xl" inline>
+          Drag images here or click to select files
+        </Text>
+        <Text size="sm" color="dimmed" inline mt={7}>
+          Attach as many files as you like, each file should not exceed 5mb
+        </Text>
+      </div>
+    </Group>
+  );
+
+  const handleOnChangePicture = uploadedFile => {
+    const file = uploadedFile[0];
+    setImageTemp(file);
+    
+    const readerTemp = new FileReader();
+    
+
+    const fileName = file?.name?.split('.')?.[0] ?? 'New file';
+    
+    readerTemp.addEventListener(
+      'load',
+        function () {
+        try {
+          setImage({ src: readerTemp.result, alt: fileName });
+          
+            setReader(readerTemp);
+           
+          
+          
+          
+         
+        } catch (err) {
+          showNotification({
+            message: "Unable to update image",
+            autoClose: 2000,
+            icon: <Cross1Icon />,
+            color: "red"
+          })
+        } finally {
+          setUpdatingPicture(false);
+        }
+      },
+      false
+    );
+
+    if (file) {
+      if (file.size <= 10 * 1024 * 1024) {
+        setUpdatingPicture(true);
+        readerTemp.readAsDataURL(file);
+      } else {
+
+      }
+    }
+    
   };
 
   return (
     <div>
       <div className="mb-8 max-w-md">
-        <ImageUpload
+        {/* <ImageUpload
           initialImage={{ src: image, alt: initialFormValues.title }}
           onChangePicture={upload}
-        />
+        /> */}
+
+      
       </div>
 
-      <Formik
-        initialValues={initialFormValues}
-        validationSchema={ListingSchema}
-        validateOnBlur={false}
-        onSubmit={handleOnSubmit}
-      >
-        {({ isSubmitting, isValid }) => (
-          <Form className="space-y-8">
-            <div className="space-y-6">
-              <Input
-                name="title"
-                type="text"
-                label="Title"
-                placeholder="Please enter title"
-                disabled={disabled}
-              />
+      <Box sx={{ maxWidth: 340 }} mx="auto">
+      <form onSubmit={form.onSubmit(handleOnSubmit)}>
+        <Dropzone
+          onDrop={handleOnChangePicture }
+          onReject={(files) => console.log('rejected files', files)}
+          maxSize={3 * 1024 ** 2}
+          accept={IMAGE_MIME_TYPE}
+          multiple={false}
+          {...form.getInputProps('image')}
+          name = "image"
+        >
+          {(status) => dropzoneChildren(status)}
+        </Dropzone>
+        {image?.src ? (
+          <Image
+            src={image.src}
+            alt={image?.alt ?? ''}
+            objectFit='cover'
+            layout="responsive" 
+            width={170} 
+            height={100}
+          />
+        ) : null}
 
-              <Input
-                name="short"
-                type="textarea"
-                label="Short description"
-                placeholder="Please enter short desc"
-                disabled={disabled}
-                rows={5}
-              />
+        <TextInput
+          required
+          label="Title"
+          placeholder="Please enter title"
+          {...form.getInputProps('title')}
+        />
+        <TextInput
+          required
+          label="Short description"
+          placeholder="Please enter short desc"
+          mt="sm"
+          {...form.getInputProps('short')}
+        />
+        <TextInput
+          required
+          label="Long description"
+          placeholder="Please enter long desc"
+          mt="sm"
+          {...form.getInputProps('long')}
+        />
+        
+        <NumberInput
+          required
+          label="Category"
+          placeholder="2"
+          mt="sm"
+          {...form.getInputProps('category')}
+        />
 
-              <Input
-                name="long"
-                type="textarea"
-                label="Long Description"
-                placeholder="Please enter long desc"
-                disabled={disabled}
-                rows={10}
-              />
+        <Group position="right" mt="xl">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </form>
+    </Box>
 
-              <Input
-                name="category"
-                type="number"
-                label="Category"
-                placeholder="2"
-                min="1"
-                max="4"
-                disabled={disabled}
-              />
-
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={disabled || !isValid}
-                className="bg-rose-600 text-white py-2 px-6 rounded-md focus:outline-none focus:ring-4 focus:ring-rose-600 focus:ring-opacity-50 hover:bg-rose-500 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-600"
-              >
-                {isSubmitting ? 'Submitting...' : buttonText}
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
     </div>
   );
 };
 
-UploadForm.propTypes = {
-  initialValues: PropTypes.shape({
-    image: PropTypes.string,
-    title: PropTypes.string,
-    long: PropTypes.string,
-    short: PropTypes.string,
-    category: PropTypes.number,
-   
-  }),
-  redirectPath: PropTypes.string,
-  buttonText: PropTypes.string,
-  onSubmit: PropTypes.func,
-};
 
-export default UploadForm;
+
+export default UploadFormTest;

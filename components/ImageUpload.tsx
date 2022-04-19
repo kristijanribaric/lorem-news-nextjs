@@ -20,6 +20,7 @@ const ImageUpload = ({
 
   const handleOnChangePicture = e => {
     const file = e.target.files[0];
+    console.log(file);
     const reader = new FileReader();
 
     const fileName = file?.name?.split('.')?.[0] ?? 'New file';

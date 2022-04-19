@@ -27,26 +27,6 @@ interface Article {
   category: Category
 }
 
-const serializeFields = obj => {
-  let serialized = {};
-  Object.keys(obj).forEach(key => {
-    let val = obj[key];
-    if (val !== null) {
-      if (Array.isArray(val)) {
-        // Loop through array
-        val = val.map(item => serializeFields(item));
-      } else if (typeof val === 'object' && typeof val.publishedDate === 'function') {
-        // Perform the serialization
-        val = JSON.parse(JSON.stringify(val));
-      } else if (typeof val === 'object') {
-        // Recurse nested object
-        val = serializeFields(val);
-      }
-    }
-    serialized[key] = val;
-  })
-  return serialized;
-}
 
 
 const ArticleS = ({ initialArticle  = null } ) => {
@@ -91,7 +71,7 @@ export const getStaticProps = async (context) => {
   if (initialArticle) {
     const ArticleParsed = JSON.parse(JSON.stringify({initialArticle}));
     return {
-      props :   serializeFields(ArticleParsed) 
+      props :   ArticleParsed
     }
   }
 
@@ -119,4 +99,4 @@ export const getStaticPaths = async () => {
 
 
 
-export default ArticleS
+export default ArticleS 

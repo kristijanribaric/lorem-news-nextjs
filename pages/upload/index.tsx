@@ -50,9 +50,9 @@ const Upload = () => {
   return (
       <Layout>
           <div className="max-w-screen-sm mx-auto">
-        <h1 className="text-xl font-medium text-gray-800">List your home</h1>
+        <h1 className="text-xl font-medium text-gray-800">Article upload</h1>
         <p className="text-gray-500">
-          Fill out the form below to list a new home.
+          Fill out the form below to add a new article.
         </p>
         <div className="mt-8">
           <UploadForm
@@ -61,6 +61,9 @@ const Upload = () => {
             onSubmit={addArticle}
             initialValues = {null}
           />
+
+         
+
           
         </div>
       </div>
