@@ -49,7 +49,7 @@ const serializeFields = obj => {
 }
 
 
-const ArticleS = ( initialArticle  = null  ) => {
+const ArticleS = ({ initialArticle  = null } ) => {
     const router = useRouter()
     const {id} = router.query
   return (
@@ -89,7 +89,7 @@ export const getStaticProps = async (context) => {
     }
   })
   if (initialArticle) {
-    const ArticleParsed = JSON.parse(JSON.stringify(initialArticle));
+    const ArticleParsed = JSON.parse(JSON.stringify({initialArticle}));
     return {
       props :   serializeFields(ArticleParsed) 
     }
