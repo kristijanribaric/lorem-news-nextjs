@@ -1,35 +1,36 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import PropTypes, { string } from 'prop-types';
 import * as Yup from 'yup';
 import axios from 'axios';
-import ImageUpload from './ImageUpload';
 import { useForm, yupResolver } from '@mantine/form';
-import { NumberInput, TextInput, Button, Box, Group } from '@mantine/core';
+import {  TextInput, Button, Box, Group } from '@mantine/core';
 import { Text, useMantineTheme, MantineTheme } from '@mantine/core';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import Image from 'next/image';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { CheckIcon } from '@modulz/radix-icons';
 import { Cross1Icon } from '@modulz/radix-icons';
+import { MultiSelect } from '@mantine/core';
 
 const ListingSchema = Yup.object().shape({
   title: Yup.string().trim().required(),
   short: Yup.string().trim().required(),
   long: Yup.string().trim().required(),
-  category: Yup.number().positive().integer().min(1).required(),
+  category: Yup.array()
 });
 
 interface MyFormValues {
   title: string;
   short: string;
   long: string;
-  category: number;
-  image?: string;
+  category: Array<string>;
+  image: string;
 }
+
 
 interface MyProps {
   initialValues: MyFormValues,
+  initialCategories: Array<string>,
   redirectPath: string,
   buttonText: string,
   onSubmit: Function,
@@ -37,6 +38,7 @@ interface MyProps {
 
 const UploadFormTest = ({
   initialValues = null,
+  initialCategories = null,
   redirectPath = '',
   buttonText = 'Submit',
   onSubmit = () => null
@@ -49,6 +51,7 @@ const UploadFormTest = ({
   const [updatingPicture, setUpdatingPicture] = useState(false);
   const [reader, setReader] = useState<FileReader>(null) 
   const [imageTemp, setImageTemp] = useState<File>(null);
+  const [selectData, setSelectData] = useState(initialCategories)
 
   const upload = async (image:ArrayBuffer|string) => {
     if (!image) {
@@ -107,6 +110,7 @@ const UploadFormTest = ({
       })
       // Submit data
       if (typeof onSubmit === 'function') {
+        console.log({...values})
         await onSubmit({ ...values, image: url });
       }
       updateNotification({
@@ -133,7 +137,7 @@ const UploadFormTest = ({
   };
 
   const handleOnSubmit = async (values = null) => {
-    const url = await upload(reader.result);
+    const url = await upload(reader?.result);
     uploadArticle(values,url);
 
     
@@ -143,11 +147,11 @@ const UploadFormTest = ({
   const form = useForm({
     schema: yupResolver(ListingSchema),
     initialValues: {
-      image: '',
-      title: '',
-      short: '',
-      long: '',
-      category: 1,
+      image: initialValues?.image || '',
+      title: initialValues?.title || '',
+      short: initialValues?.short || '',
+      long: initialValues?.long || '',
+      category: initialValues?.category || '',
     },
   });
 
@@ -169,6 +173,8 @@ const UploadFormTest = ({
   const handleOnChangePicture = uploadedFile => {
     const file = uploadedFile[0];
     setImageTemp(file);
+    // console.log(initialCategories);
+    console.log(selectData);
     
     const readerTemp = new FileReader();
     
@@ -232,7 +238,7 @@ const UploadFormTest = ({
           accept={IMAGE_MIME_TYPE}
           multiple={false}
           {...form.getInputProps('image')}
-          name = "image"
+          disabled={disabled}
         >
           {(status) => dropzoneChildren(status)}
         </Dropzone>
@@ -251,6 +257,7 @@ const UploadFormTest = ({
           required
           label="Title"
           placeholder="Please enter title"
+          disabled={disabled}
           {...form.getInputProps('title')}
         />
         <TextInput
@@ -258,6 +265,7 @@ const UploadFormTest = ({
           label="Short description"
           placeholder="Please enter short desc"
           mt="sm"
+          disabled={disabled}
           {...form.getInputProps('short')}
         />
         <TextInput
@@ -265,19 +273,27 @@ const UploadFormTest = ({
           label="Long description"
           placeholder="Please enter long desc"
           mt="sm"
+          disabled={disabled}
           {...form.getInputProps('long')}
         />
         
-        <NumberInput
+
+        <MultiSelect
           required
-          label="Category"
-          placeholder="2"
-          mt="sm"
+          label="Select category"
+          data={selectData}
+          placeholder="Select items"
+          maxSelectedValues={3}
+          searchable
+          creatable
+          disabled={disabled}
+          getCreateLabel={(query) => `+ Create ${query}`}
+          onCreate={(query) => setSelectData((current) => [...current, query])}
           {...form.getInputProps('category')}
         />
 
-        <Group position="right" mt="xl">
-          <Button type="submit">Submit</Button>
+        <Group position="right"  className='mt-9'>
+          <Button type="submit" disabled={disabled}  className='bg-red-600 rounded-lg hover:bg-red-700 '>{buttonText}</Button>
         </Group>
       </form>
     </Box>

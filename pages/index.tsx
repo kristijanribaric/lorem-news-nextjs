@@ -26,9 +26,8 @@ export default function Home({initialArticles}) {
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {initialArticles.map(article => {
           article.publishedDate = article.publishedDate.toString();
-        return <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} date={article.publishedDate} />})}
+        return <Article key={article.id} id={article.id} title={article.title} description={article.short} image={article.image} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={false} />})}
         </div>
-        
         
       </div>
     </Layout>
@@ -42,10 +41,18 @@ export async function getServerSideProps() {
   const articles = await prisma.articles.findMany({
     include: {
       author: {
-        select: { name: true },
+        select: { 
+          name: true, 
+          image: true
+        },
       },
-      category: {
-        select: { name: true },
+      categories: {
+        select: { category : {
+          select: {
+            id: true,
+            name: true
+          }
+        }},
       },
   }});
   return {

@@ -1,15 +1,7 @@
-import { useState } from 'react'
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Layout from '../../components/Layout';
 import { useSession, getSession } from 'next-auth/react';
-import Image from 'next/image'
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
 import UploadForm from '../../components/UploadForm';
+import prisma from '../../db';
 
 
 export async function getServerSideProps(context) {
@@ -23,19 +15,22 @@ export async function getServerSideProps(context) {
         },
       };
     }
-  
+
+    const categories = await prisma.category.findMany();
     return {
-      props: {},
-    };
+        props: {
+            initialCategories : categories
+        }
+    }
+  
+    
 }
 
 
-const Upload = () => {
+const Upload = ({initialCategories}) => {
    
 
     const addArticle = async data => {
-        // axios.post('/api/upload', data);
-        console.log(data);
         const response = await fetch('/api/upload', {
             method: 'POST',
             body: JSON.stringify(data)
@@ -56,10 +51,11 @@ const Upload = () => {
         </p>
         <div className="mt-8">
           <UploadForm
-            buttonText="Add home"
+            buttonText="Add article"
             redirectPath="/"
             onSubmit={addArticle}
             initialValues = {null}
+            initialCategories = {initialCategories.map(categories => categories.name)}
           />
 
          

@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import prisma from '../../../db'
 import { getSession } from 'next-auth/react';
 
@@ -12,17 +11,32 @@ const uploaderForm = async (req, res) => {
 
       const article = JSON.parse(req.body);
       const session = await getSession({ req });
-      const savedArticle = await prisma.articles.create({ 
-        data: {
-          title: article.title,
-          short: article.short,
-          long: article.long,
-          category: { connect: {id: article.category } },
-          image: article.image,
-          author: { connect: { email: session?.user?.email } },
-          publishedDate: new Date()
-          
-        } });
+
+      const savedArticle = await prisma.$transaction(async (prisma) => {
+
+        const category= await prisma.category.createMany({
+         data: article.category.map(name => ({name})),
+         skipDuplicates: true,
+       })
+       
+       const articles = prisma.articles.create({ 
+          data: {
+            title: article.title,
+            short: article.short,
+            long: article.long,
+            categories: { 
+              create: article.category.map(name => ({name})).map(connect => ({connect})).map(category => ({category}))
+                
+            },
+            image: article.image,
+            author: { connect: { email: session?.user?.email } },
+            publishedDate: new Date()
+          } 
+        });
+     
+        return articles
+      })
+
       res.status(200).json(savedArticle);
     } catch (err) {
       res.status(400).json({ message: 'Something went wrong' });

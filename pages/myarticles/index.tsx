@@ -14,7 +14,7 @@ export default function Myarticles({initialArticles}) {
         <Layout>
         <div className='w-2/3 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} author={article.author.name} date={article.publishedDate} />)}
+            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} description={article.short} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={true} />)}
             </div>
             
             
@@ -44,11 +44,21 @@ export async function getServerSideProps({ req, res }) {
         },
         include: {
             author: {
-              select: { name: true },
+                select: { 
+                    name: true, 
+                    image: true
+                  },
             },
-        },
+            categories: {
+              select: { category : {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }},
+            },
+        }
     });
-    console.log(articles)
     return {
         props: {
             initialArticles : JSON.parse(JSON.stringify(articles))
