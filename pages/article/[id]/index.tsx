@@ -47,7 +47,6 @@ const ArticleS = ({ initialArticle  = null } ) => {
          
           <p className="w-2/3 mt-6 m-auto whitespace-pre-line">{initialArticle?.long ?? " "}</p>
           <Link href="/"> Go Back</Link>
-          {console.log(initialArticle.categories[0].category.name)}
       </div>
     </Layout>
   )
