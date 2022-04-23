@@ -8,13 +8,13 @@ import { useSession, getSession } from 'next-auth/react';
 
 
 
-export default function Myarticles({initialArticles}) {
+export default function Myarticles({initialArticles,url}) {
     const { data: session , status } = useSession();
     return (
         <Layout>
         <div className='w-2/3 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} description={article.short} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={true} />)}
+            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} description={article.short} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={true} url={url}/>)}
             </div>
             
             
@@ -61,7 +61,8 @@ export async function getServerSideProps({ req, res }) {
     });
     return {
         props: {
-            initialArticles : JSON.parse(JSON.stringify(articles))
+            initialArticles : JSON.parse(JSON.stringify(articles)),
+            url : process.env.URL
         }
     }
 }

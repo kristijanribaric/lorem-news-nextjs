@@ -70,17 +70,14 @@ interface ArticleCardProps {
   }
   categories: Array<{category:Category}>
   isEditable: boolean
+  url : string
 }
 
 
-const Article = ({id,title,description,image,date,author,categories, isEditable}: ArticleCardProps) => {
+const Article = ({id,title,description,image,date,author,categories, isEditable,url}: ArticleCardProps) => {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
   const clipboard = useClipboard();
   const [opened, setOpened] = useState(false);
-  const { asPath } = useRouter();
-  const origin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
-  const URL = `${origin}${asPath}`;
   const router = useRouter();
 
   async function deleteArticle(id: string): Promise<void> {
@@ -94,20 +91,6 @@ const Article = ({id,title,description,image,date,author,categories, isEditable}
     
 
   return (
-    
-    // <Link href='/article/[id]' as={`/article/${id}`} passHref>
-    //     <div className='cursor-pointer'>
-    //     {image ? <Image src={image} alt={title} placeholder="blur" blurDataURL={image} layout="responsive" width={170} height={100} sizes="50vw"/> : <Loader className='m-auto' color="red" size="xl" variant="bars"/> }
-    //     <h1 className='font-bold text-xl'>{title}</h1>
-    //     <div className='flex'>
-    //       <p className='font-thin text-gray-600'>{author}</p>
-    //       <p className='font-thin text-gray-600'>{new Date(date).toLocaleDateString("hr-HR")}</p>
-    //     </div>
-    //     {categories.map(categories => <p className="bg-blue-600 text-white rounded-lg inline-block p-2 mx-2" key={categories.category.id}>{categories.category.name}</p>)}
-        
-    //     </div>
-        
-    // </Link>
     <>
     {isEditable && <Modal
         opened={opened}
@@ -190,7 +173,7 @@ const Article = ({id,title,description,image,date,author,categories, isEditable}
             transitionDuration={200}
             opened={clipboard.copied}
           >
-            <ActionIcon className={classes.action} onClick={() => clipboard.copy(`${URL}article/${id}`)}>
+            <ActionIcon className={classes.action} onClick={() => clipboard.copy(`${url}/article/${id}`)}>
               <BiShareAlt size={16} />
             </ActionIcon>
           </Tooltip>

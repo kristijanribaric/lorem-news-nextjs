@@ -7,7 +7,7 @@ import Layout from '../components/Layout'
 
 
 
-export default function Home({initialArticles}) {
+export default function Home({initialArticles,url}) {
   // const hotTopics = initialArticles[Math.floor(Math.random() * initialArticles.length)]
   // const hotTopics = initialArticles[4];
   return (
@@ -26,7 +26,7 @@ export default function Home({initialArticles}) {
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {initialArticles.map(article => {
           article.publishedDate = article.publishedDate.toString();
-        return <Article key={article.id} id={article.id} title={article.title} description={article.short} image={article.image} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={false} />})}
+        return <Article key={article.id} id={article.id} title={article.title} description={article.short} image={article.image} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={false} url={url} />})}
         </div>
         
       </div>
@@ -57,7 +57,8 @@ export async function getServerSideProps() {
   }});
   return {
       props: {
-          initialArticles : JSON.parse(JSON.stringify(articles))
+          initialArticles : JSON.parse(JSON.stringify(articles)),
+          url: process.env.URL
       }
   }
 }
