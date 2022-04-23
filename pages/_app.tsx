@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          /** Put your mantine theme override here */
+          primaryColor: 'red'
          
         }}
       ><NotificationsProvider  position="top-center">

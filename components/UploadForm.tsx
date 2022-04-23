@@ -3,20 +3,21 @@ import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useForm, yupResolver } from '@mantine/form';
-import {  TextInput, Button, Box, Group } from '@mantine/core';
-import { Text, useMantineTheme, MantineTheme } from '@mantine/core';
+import {  TextInput, Button, Box, Group, Textarea } from '@mantine/core';
+import { Text, useMantineTheme, MantineTheme, Transition } from '@mantine/core';
 import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import Image from 'next/image';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { CheckIcon } from '@modulz/radix-icons';
 import { Cross1Icon } from '@modulz/radix-icons';
 import { MultiSelect } from '@mantine/core';
+import { BsUpload } from 'react-icons/bs';
 
 const ListingSchema = Yup.object().shape({
   title: Yup.string().trim().required(),
   short: Yup.string().trim().required(),
   long: Yup.string().trim().required(),
-  category: Yup.array()
+  category: Yup.array().min(1).max(3)
 });
 
 interface MyFormValues {
@@ -137,6 +138,15 @@ const UploadFormTest = ({
   };
 
   const handleOnSubmit = async (values = null) => {
+    if(!reader?.result) {
+      showNotification({
+        message: "Can't submit - No image uploaded",
+        autoClose: 2000,
+        icon: <Cross1Icon />,
+        color: "red"
+      })
+      return;
+    }
     const url = await upload(reader?.result);
     uploadArticle(values,url);
 
@@ -151,29 +161,15 @@ const UploadFormTest = ({
       title: initialValues?.title || '',
       short: initialValues?.short || '',
       long: initialValues?.long || '',
-      category: initialValues?.category || '',
+      category: initialValues?.category || [],
     },
   });
 
-   const dropzoneChildren = (status: DropzoneStatus) => (
-    <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
-     
-  
-      <div>
-        <Text size="xl" inline>
-          Drag images here or click to select files
-        </Text>
-        <Text size="sm" color="dimmed" inline mt={7}>
-          Attach as many files as you like, each file should not exceed 5mb
-        </Text>
-      </div>
-    </Group>
-  );
+   
 
   const handleOnChangePicture = uploadedFile => {
     const file = uploadedFile[0];
     setImageTemp(file);
-    // console.log(initialCategories);
     console.log(selectData);
     
     const readerTemp = new FileReader();
@@ -229,29 +225,49 @@ const UploadFormTest = ({
       
       </div>
 
-      <Box sx={{ maxWidth: 340 }} mx="auto">
+      <Box sx={{ maxWidth: "80%" }} mx="auto">
       <form onSubmit={form.onSubmit(handleOnSubmit)}>
         <Dropzone
           onDrop={handleOnChangePicture }
           onReject={(files) => console.log('rejected files', files)}
-          maxSize={3 * 1024 ** 2}
+          maxSize={1024 ** 2}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
           {...form.getInputProps('image')}
           disabled={disabled}
         >
-          {(status) => dropzoneChildren(status)}
+          {(status) => (
+          <div style={{ pointerEvents: 'none' }}>
+            <Group position="center">
+              <BsUpload size={50} className="text-red-600" />
+            </Group>
+            <Text
+              align="center"
+              weight={700}
+              size="lg"
+              mt="xl"
+            >
+              {status.accepted
+                ? 'Drop files here'
+                : status.rejected
+                ? 'Image must be less than 10mb'
+                : 'Upload image'}
+            </Text>
+            <Text align="center" size="sm" mt="xs" color="dimmed">
+              Drag&apos;n&apos;drop files or click here to upload. Only <i>.jpeg,.png,.gif,webp</i> smaller than 10mb are accepted.
+            </Text>
+          </div>
+        )}
         </Dropzone>
-        {image?.src ? (
+        {image?.src ? 
           <Image
             src={image.src}
             alt={image?.alt ?? ''}
-            objectFit='cover'
             layout="responsive" 
-            width={170} 
-            height={100}
+            width={320} 
+            height={180}
           />
-        ) : null}
+         : null}
 
         <TextInput
           required
@@ -260,22 +276,31 @@ const UploadFormTest = ({
           disabled={disabled}
           {...form.getInputProps('title')}
         />
-        <TextInput
-          required
-          label="Short description"
-          placeholder="Please enter short desc"
-          mt="sm"
-          disabled={disabled}
-          {...form.getInputProps('short')}
+    
+
+        <Textarea
+        required
+        label="Short description"
+        placeholder="Please enter a short description of the article"
+        autosize
+        minRows={3}
+        maxRows={5}
+        mt="sm"
+        disabled={disabled}
+        {...form.getInputProps('short')}
         />
-        <TextInput
-          required
-          label="Long description"
-          placeholder="Please enter long desc"
-          mt="sm"
-          disabled={disabled}
-          {...form.getInputProps('long')}
+        <Textarea
+        required
+        label="Article content"
+        placeholder="Please enter the main content of the article"
+        autosize
+        minRows={5}
+        maxRows={9}
+        mt="sm"
+        disabled={disabled}
+        {...form.getInputProps('long')}
         />
+      
         
 
         <MultiSelect
@@ -284,6 +309,9 @@ const UploadFormTest = ({
           data={selectData}
           placeholder="Select items"
           maxSelectedValues={3}
+          transition="skew-down"
+          transitionDuration={150}
+          transitionTimingFunction="ease"
           searchable
           creatable
           disabled={disabled}
