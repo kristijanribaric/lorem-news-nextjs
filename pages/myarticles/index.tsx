@@ -4,19 +4,25 @@ import Article from '../../components/Article'
 import { Prisma} from '@prisma/client'
 import  prisma  from '../../db'
 import Layout from '../../components/Layout'
-import { useSession, getSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/router'
+
+
 
 
 
 export default function Myarticles({initialArticles,url}) {
-    const { data: session , status } = useSession();
+    const router = useRouter();
+    const refreshData = () => {
+        router.replace(router.asPath);
+    }
+    
     return (
         <Layout>
         <div className='w-2/3 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {initialArticles.map(article => <Article key={article.id} id={article.id} title={article.title} image={article.image} description={article.short} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={true} url={url}/>)}
+            {initialArticles.map(article => <Article key={article.id} articleData={article} isEditable={true} url={url} refresher={refreshData}/>)}
             </div>
-            
             
         </div>
         </Layout>
@@ -32,7 +38,7 @@ export async function getServerSideProps({ req, res }) {
         res.statusCode = 403;
         return {
             redirect: {
-              destination: '/api/auth/signin',
+              destination: '/signin',
               permanent: false,
             },
         };
@@ -42,21 +48,27 @@ export async function getServerSideProps({ req, res }) {
         where: {
             author: { email: session.user.email },
         },
-        include: {
+       
+        select: {
+            id: true,
+            image: true,
+            short: true,
+            title: true,
+            publishedDate: true,
             author: {
-                select: { 
-                    name: true, 
+                select: {
+                    name: true,
                     image: true
-                  },
+                }
             },
             categories: {
-              select: { category : {
-                select: {
-                  id: true,
-                  name: true
-                }
-              }},
-            },
+                select: { category : {
+                  select: {
+                    id: true,
+                    name: true
+                  }
+                }},
+              },
         }
     });
     return {

@@ -13,6 +13,7 @@ import { Cross1Icon } from '@modulz/radix-icons';
 import { MultiSelect } from '@mantine/core';
 import { BsUpload } from 'react-icons/bs';
 
+
 const ListingSchema = Yup.object().shape({
   title: Yup.string().trim().required(),
   short: Yup.string().trim().required(),
@@ -230,7 +231,7 @@ const UploadFormTest = ({
         <Dropzone
           onDrop={handleOnChangePicture }
           onReject={(files) => console.log('rejected files', files)}
-          maxSize={1024 ** 2}
+          maxSize={10*1024**2}
           accept={IMAGE_MIME_TYPE}
           multiple={false}
           {...form.getInputProps('image')}

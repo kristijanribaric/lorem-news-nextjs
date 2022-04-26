@@ -12,7 +12,7 @@ export default function Home({initialArticles,url}) {
   // const hotTopics = initialArticles[4];
   return (
     <Layout>
-      <div className='w-2/3 m-auto'>
+      <div className='w-full px-4 m-auto'>
         {/* <div className='relative mb-12'>
           <h1>Hot Topics</h1>
           <div>
@@ -26,7 +26,7 @@ export default function Home({initialArticles,url}) {
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {initialArticles.map(article => {
           article.publishedDate = article.publishedDate.toString();
-        return <Article key={article.id} id={article.id} title={article.title} description={article.short} image={article.image} author={article.author} date={article.publishedDate} categories={article.categories} isEditable={false} url={url} />})}
+        return <Article key={article.id} articleData={article} isEditable={false} url={url} />})}
         </div>
         
       </div>

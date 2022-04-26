@@ -1,99 +1,106 @@
 import React, { useState} from 'react'
 import Link from 'next/link'
 import { Transition } from "@headlessui/react";
-import Burger from '@animated-burgers/burger-squeeze'
-import '@animated-burgers/burger-squeeze/dist/styles.css'
 import styles from '../styles/Navbar.module.css'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut, useSession, signIn } from 'next-auth/react';
+import { UnstyledButton,Divider, Menu, Burger, Avatar, Button, Notification } from '@mantine/core';
+import { BsChevronDown, BsArrowDownUp,BsFillJournalBookmarkFill, BsBoxArrowRight, BsTools } from "react-icons/bs";
+import classNames from 'classnames';
+import { FcGoogle } from 'react-icons/fc'
+import { BsGithub } from 'react-icons/bs'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+	const [userMenuOpened, setUserMenuOpened] = useState(false);
 	const { data: session, status } = useSession();
 	const router = useRouter();
-  return (
-    <div>
-			<nav className=" shadow-sm fixed top-0 w-full z-10  text-white">
-				<div className="w-full">
-					<div className="flex items-center h-20 w-full bg-black">
-						<div className="flex items-center  mx-20  justify-between w-full">
-							<Link href="/" passHref>
-								<div className="flex justify-center items-center flex-shrink-0 cursor-pointer">
-									<Image src='/news_logo_red.png' alt='lorem news logo' width={80} height={80}/>
-									<h1 className=" ml-4 font-bold text-xl cursor-pointer">
-										Lorem <span className="text-red-700">News</span>
-									</h1>
-								</div>
-							</Link>
-							
-							<div className="hidden md:block">
-								<div className="ml-10 flex items-baseline space-x-4">
-									<div className="px-4 py-2  ">
-										<Link						
-											href="/"
-											passHref
-										>
-											<span className="cursor-pointer  px-8 py-2 " >Home</span>	
-										</Link>
-										<div className={router.pathname == "/" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
-									</div>
-									<div className="px-4 py-2  ">
-										<Link						
-											href="/about"
-											passHref
-										>
-											<span className="cursor-pointer  px-8 py-2 " >About</span>	
-										</Link>
-										<div className={router.pathname == "/about" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
-									</div>
-									<div className="px-4 py-2  ">
-										<Link						
-											href="/upload"
-											passHref
-										>
-											<span className="cursor-pointer  px-8 py-2 " >Upload</span>	
-										</Link>
-										<div className={router.pathname == "/upload" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
-									</div>
 
-									{!session && <div className="px-4 py-2  ">
-									<Link						
-											href="/api/auth/signin"
-											passHref
-										>
-											<span className="cursor-pointer  px-8 py-2 " >Log in</span>	
-										</Link>
-									</div>}
-									{session && <div className="px-4 py-2  ">
-										<Link						
-											href="/myarticles"
-											passHref
-										>
-											<span className="cursor-pointer  px-8 py-2 " >My Articles</span>	
-										</Link>
-										<div className={router.pathname == "/myarticles" ? "h-1 w-full bg-white transition-all duration-500" : "h-1 bg-transparent w-0 transition-all duration-500"}></div>
-									</div>}
-									{session && <div><p>{session.user.name}({session.user.email})</p><button className='px-2 py-1 bg-red-700' onClick={() => signOut()}><a>Log out</a> </button></div>}
-								</div>
+	const signInWithGoogle = () => {
+        <Notification
+        loading
+        disallowClose
+      >
+        Redirecting...
+      </Notification>
+        signIn('google', {
+          callbackUrl: "/",
+        });
+    };
+
+    const signInWithGithub = () => {
+        <Notification
+        loading
+        disallowClose
+      >
+        Redirecting...
+      </Notification>
+        signIn('github', {
+          callbackUrl: "/",
+        });
+    };
+  return (
+   
+			<div className=" shadow-sm fixed top-0 w-full z-10 mb-24  text-white bg-black">
+				<div>
+					<div className='flex justify-between py-2'>
+						<Link href="/" passHref>
+							<div className="flex justify-center mx-6 items-center gap-4 flex-shrink-0 cursor-pointer">
+								<Image src='/news_logo_red.png' alt='lorem news logo' width={80} height={80}/>
+								<h1 className='cursor-pointer'>Lorem News</h1>
 							</div>
-						</div>
-						<div className="mr-10 flex md:hidden ">
+						</Link>
 						
-						<button
-								onClick={() => setIsOpen(!isOpen)}
-								type="button"
-								className=""
-								aria-controls="mobile-menu"
-								aria-expanded="false"
-							>							
-								{!isOpen ? (
-									<Burger />
-								) : (
-									<Burger isOpen={ true } />
-								)}
-							</button>
+						<div className='flex'>
+							<Menu
+								size={260}
+								placement="end"
+								transition="pop-top-right"
+								onClose={() => setUserMenuOpened(false)}
+								onOpen={() => setUserMenuOpened(true)}
+								control={
+								<UnstyledButton
+									className="hover:bg-white/30 transition-alltext-white md:px-4 md:py-2 rounded-md"
+								>
+									<div className='flex gap-2 py-2 mx-4 text-white'>
+									<Avatar src={session?.user.image} alt={session?.user.name} radius="xl"  size={28}/>
+									<h2 className='font-medium hidden md:block leading-[2] '>{session?.user.name}</h2>
+									
+									<BsChevronDown className=" mt-2 hidden md:block" />
+									</div>
+								</UnstyledButton>
+								}
+							>
+								{!session ? 
+								<div className='text-center m-4'>
+									<h2 className='text-center'>Please login with: </h2>
+									<Button variant='default' leftIcon={<FcGoogle/>} className="rounded-full px-12 w-full" onClick={()=> signInWithGoogle()}>Google</Button>
+									<Divider label="Or with" labelPosition='center' className='my-8'/>
+									<Button variant='default' leftIcon={<BsGithub/>} className="rounded-full px-12 w-full" onClick={()=> signInWithGithub()}>Github</Button>
+									</div> : <><Link href="/myarticles" passHref><Menu.Item icon={<BsFillJournalBookmarkFill size={14} />}>My Articles</Menu.Item></Link>
+								<Divider/>
+								<Menu.Item icon={<BsTools size={14} />}>Account settings</Menu.Item>
+								<Menu.Item icon={<BsArrowDownUp size={14} />}>Change account</Menu.Item>
+								<Menu.Item icon={<BsBoxArrowRight size={14} />} onClick={() => signOut()}>Logout</Menu.Item></>}
+								
+							</Menu>
+							<Burger opened={isOpen} onClick={() => setIsOpen(!isOpen)} className="md:hidden mt-1 mx-3" color="white" />
 						</div>
+						
+						
+					</div>
+					{/* <Tabs variant='outline' position='center' className='hidden md:block'>
+						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="Home"/>
+						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="About"/>
+						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="Categories"/>
+						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="Upload"/>
+					</Tabs> */}
+					<div className=' justify-center gap-2 hidden md:flex'>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/"})}><Link href="/" passHref>Home</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/about"})}><Link href="/about" passHref>About</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/categories"})}><Link href="/categories" passHref>Categories</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/upload"})}><Link href="/upload" passHref>Upload</Link></div>
 					</div>
 				</div>
 
@@ -117,7 +124,7 @@ const Navbar = () => {
 									passHref
 									
 								>	
-								<div className={router.pathname == "/" ? styles.active : styles.btn}>
+								<div className={router.pathname == "/" ? styles.active : styles.btn} onClick={()=> setIsOpen(false)}>
 										<span className=" ">Home</span>
 										<em></em>
 								</div>
@@ -127,64 +134,45 @@ const Navbar = () => {
 									href="/about"
 									passHref
 								>
-									<div className={router.pathname == "/about" ? styles.active : styles.btn}>
+									<div className={router.pathname == "/about" ? styles.active : styles.btn} onClick={()=> setIsOpen(false)}>
 										<span className=" ">About</span>
 										<em></em>
 								</div>
 								</Link>
 
 								<Link
-									href={session ? "/upload" : "/api/auth/signin"}
+									href="/categories"
 									passHref
+								>
+									<div className={router.pathname == "/categories" ? styles.active : styles.btn} onClick={()=> setIsOpen(false)}>
+										<span className=" ">Categories</span>
+										<em></em>
+								</div>
+								</Link>
+
+								<Link
+									href={session ? "/upload" : "/signin"}
+									passHref	
 									
 								>
-									<div className={router.pathname == "/upload" ? styles.active : styles.btn}>
+									<div className={router.pathname == "/upload" ? styles.active : styles.btn} onClick={()=> setIsOpen(false)}>
 										<span className=" ">Upload</span>
 										<em></em>
 								</div>
 								</Link>
 
-								{!session && <Link
-									href="/api/auth/signin"
-									passHref
-									
-								>
-									<div className={styles.btn}>
-										<span className=" ">Log in</span>
-										<em></em>
-								</div>
-								</Link>}
 								
-								{session && <Link
-									href="/myarticles"
-									passHref
-									
-								>
-									<div className={router.pathname == "/myarticles" ? styles.active : styles.btn}>
-										<span className=" ">My Articles</span>
-										<em></em>
-								</div>
-								</Link>}
+								
+								
 
-								{session && <button
-									onClick={() => signOut()}
-									className={styles.btn}
-									
-								>
-									
-										<span className=" ">Log out</span>
-										<em></em>
-
-								</button>}
-
-								{session &&
-								 <div className='text-center  text-gray-400 pb-2'><p>{session.user.name} ({session.user.email})</p></div>}
+								
+								
 							</div>
 						</div>
 					)}
 				</Transition>
-			</nav>
-		</div>
+			</div>
+		
   )
 }
 

@@ -74,7 +74,7 @@ interface ArticleCardProps {
 }
 
 
-const Article = ({id,title,description,image,date,author,categories, isEditable,url}: ArticleCardProps) => {
+const Article = ({articleData,isEditable,refresher = () => null,url}) => {
   const { classes } = useStyles();
   const clipboard = useClipboard();
   const [opened, setOpened] = useState(false);
@@ -85,7 +85,7 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
       method: 'DELETE',
     });
     setOpened(false);
-    router.push("/myarticles");
+    refresher();
     
   }
     
@@ -98,20 +98,20 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
         title="Do you really want to delete this article?"
       >
         <Center className='flex space-x-4'>
-          <Button onClick={() => deleteArticle(id)} className='bg-blue-600 hover:bg-blue-700'>Yes</Button> 
+          <Button onClick={() => deleteArticle(articleData.id)} className='bg-blue-600 hover:bg-blue-700'>Yes</Button> 
           <Button onClick={() => setOpened(false)} className='bg-red-600 hover:bg-red-700'>No</Button>
         </Center>
         
       </Modal>}
     <Card withBorder radius="md" className={classes.card} >
       <Card.Section>
-        <Link href='/article/[id]' as={`/article/${id}`} passHref>
-          <a>{image ? <Image  src={image} alt={title} placeholder="blur" blurDataURL={image} layout="responsive" width={320}  height={180}/> : <Loader className='m-auto my-10' color="red" size="lg" />}</a>
+        <Link href='/article/[id]' as={`/article/${articleData.id}`} passHref>
+          <a>{articleData.image ? <Image  src={articleData.image} alt={articleData.title} placeholder="blur" blurDataURL={articleData.image} layout="responsive" width={320}  height={180}/> : <Loader className='m-auto my-10' color="red" size="lg" />}</a>
         </Link>
       </Card.Section>
 
       <div className={classes.categories}>
-        {categories.map(categories => <Badge key={categories.category.id} className="mx-0.5" variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+        {articleData.categories.map(categories => <Badge key={categories.category.id} className="mx-0.5" variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
           {categories.category.name}
         </Badge> )}
       </div>
@@ -120,14 +120,14 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
       
 
 
-      <Link href='/article/[id]' as={`/article/${id}`} passHref>
+      <Link href='/article/[id]' as={`/article/${articleData.id}`} passHref>
         <Text className={classes.title} weight={500} component="a">
-          {title}
+          {articleData.title}
         </Text>
       </Link>
       
       <Text size="sm" color="dimmed" lineClamp={4}>
-        {description}
+        {articleData.description}
       </Text>
 
       <Group position="apart" className={classes.footer}>
@@ -139,9 +139,9 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
             position="bottom"
             radius="md"
             transition="slide-down"
-            transitionDuration={200} label={author.name}><Avatar src={author.image} size={24} radius="xl" mr="xs" /></Tooltip> </Center> : <Center><Avatar src={author.image} size={24} radius="xl" mr="xs" />
+            transitionDuration={200} label={articleData.author.name}><Avatar src={articleData.author.image} size={24} radius="xl" mr="xs" /></Tooltip> </Center> : <Center><Avatar src={articleData.author.image} size={24} radius="xl" mr="xs" />
            <Text size="sm" inline>
-            {author.name}
+            {articleData.author.name}
           </Text></Center>}
           
           
@@ -162,7 +162,7 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
             <BiTrashAlt size={20} />
           </ActionIcon>}
           
-          <Text className='font-thin text-gray-600'>{new Date(date).toLocaleDateString("hr-HR")}</Text>
+          <Text className='font-thin text-gray-600'>{new Date(articleData.publishedDate).toLocaleDateString("hr-HR")}</Text>
           <Tooltip
             label={<div className='flex space-x-2 p-1'><BsClipboardCheck className='text-lg'/><p>Copied article link!</p> </div>}
             gutter={5}
@@ -173,7 +173,7 @@ const Article = ({id,title,description,image,date,author,categories, isEditable,
             transitionDuration={200}
             opened={clipboard.copied}
           >
-            <ActionIcon className={classes.action} onClick={() => clipboard.copy(`${url}/article/${id}`)}>
+            <ActionIcon className={classes.action} onClick={() => clipboard.copy(`${url}/article/${articleData.id}`)}>
               <BiShareAlt size={16} />
             </ActionIcon>
           </Tooltip>

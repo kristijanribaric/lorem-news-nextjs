@@ -1,4 +1,4 @@
-News site made with Next.js, fetching data from remote MySQL database. Still in early development.
+News site made with Next.js, fetching data from remote PostgreSQL database. Still in early development.
 
 ## Getting Started
 
