@@ -38,7 +38,7 @@ const ArticleS = ({ article, url  } ) => {
     const clipboard = useClipboard();
   return (
     <Layout>
-      <div className="w-full px-5 ">
+      <div className="w-full px-5 m-auto lg:w-1/2 ">
           <HeaderMeta title={`${article?.initialArticle?.title ?? " loading"} | Lorem News`} />
           <h1 className="font-semibold text-center text-6xl">{article?.initialArticle?.title ?? " "}</h1>
           <p className="font-semibold  mt-5">By {article?.initialArticle?.author?.name ?? " "}</p>
@@ -60,7 +60,7 @@ const ArticleS = ({ article, url  } ) => {
             </Tooltip>
             {article?.initialArticle?.categories?.map(categories => <p className=" bg-gradient-to-tr from-black/30 to-white/40  font-semibold rounded-lg inline-block p-2 mx-2" key={categories.category.id}>{categories.category.name}</p>)}
           </div>
-          <div className=" mt-4 lg:w-3/5">
+          <div className=" mt-4 ">
             <div className=" mb-5  h-[1px] bg-black"/>
             {article?.initialArticle?.image ? <Image src={article.initialArticle.image} alt={article.initialArticle.title} placeholder="blur" blurDataURL={article.initialArticle.image} layout="responsive" width={170} height={100} sizes="50vw"/> : <Loader color="red" size="lg" variant="bars" />}
           </div>
