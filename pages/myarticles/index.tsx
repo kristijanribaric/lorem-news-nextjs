@@ -19,7 +19,7 @@ export default function Myarticles({initialArticles,url}) {
     
     return (
         <Layout>
-        <div className='w-2/3 m-auto'>
+        <div className='w-full lg:w-2/3 px-4 m-auto'>
             <div className='grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             {initialArticles.map(article => <Article key={article.id} articleData={article} isEditable={true} url={url} refresher={refreshData}/>)}
             </div>

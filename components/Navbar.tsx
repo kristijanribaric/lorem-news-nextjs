@@ -16,6 +16,7 @@ const Navbar = () => {
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
 	const { data: session, status } = useSession();
 	const router = useRouter();
+	console.log(session)
 
 	const signInWithGoogle = () => {
         <Notification
@@ -52,7 +53,7 @@ const Navbar = () => {
 							</div>
 						</Link>
 						
-						<div className='flex'>
+						<div className='flex items-center'>
 							<Menu
 								size={260}
 								placement="end"
@@ -61,13 +62,13 @@ const Navbar = () => {
 								onOpen={() => setUserMenuOpened(true)}
 								control={
 								<UnstyledButton
-									className="hover:bg-white/30 transition-alltext-white md:px-4 md:py-2 rounded-md"
+									className="hover:bg-white/30 transition-alltext-white rounded-md"
 								>
-									<div className='flex gap-2 py-2 mx-4 text-white'>
+									<div className='flex gap-2 py-2 mx-4 text-white items-center'>
 									<Avatar src={session?.user.image} alt={session?.user.name} radius="xl"  size={28}/>
 									<h2 className='font-medium hidden md:block leading-[2] '>{session?.user.name}</h2>
 									
-									<BsChevronDown className=" mt-2 hidden md:block" />
+									<BsChevronDown className="  hidden md:block" />
 									</div>
 								</UnstyledButton>
 								}
@@ -97,10 +98,10 @@ const Navbar = () => {
 						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="Upload"/>
 					</Tabs> */}
 					<div className=' justify-center gap-2 hidden md:flex'>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/"})}><Link href="/" passHref>Home</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/about"})}><Link href="/about" passHref>About</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/categories"})}><Link href="/categories" passHref>Categories</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black' : router.pathname == "/upload"})}><Link href="/upload" passHref>Upload</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/"})}><Link href="/" passHref>Home</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/about"})}><Link href="/about" passHref>About</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/categories"})}><Link href="/categories" passHref>Categories</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/upload"})}><Link href="/upload" passHref>Upload</Link></div>
 					</div>
 				</div>
 

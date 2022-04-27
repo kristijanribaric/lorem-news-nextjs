@@ -79,6 +79,7 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
   const clipboard = useClipboard();
   const [opened, setOpened] = useState(false);
   const router = useRouter();
+  console.log(articleData)
 
   async function deleteArticle(id: string): Promise<void> {
     await fetch(`/api/delete/${id}`, {
@@ -111,7 +112,7 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
       </Card.Section>
 
       <div className={classes.categories}>
-        {articleData.categories.map(categories => <Badge key={categories.category.id} className="mx-0.5" variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+        {articleData.categories.map(categories => <Badge key={categories.category.id} variant="outline" className="mx-0.5 bg-gradient-to-r from-black/80 via-black/60  to-black/10 text-white border-none" >
           {categories.category.name}
         </Badge> )}
       </div>
@@ -127,7 +128,7 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
       </Link>
       
       <Text size="sm" color="dimmed" lineClamp={4}>
-        {articleData.description}
+        {articleData.short}
       </Text>
 
       <Group position="apart" className={classes.footer}>
@@ -164,7 +165,7 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
           
           <Text className='font-thin text-gray-600'>{new Date(articleData.publishedDate).toLocaleDateString("hr-HR")}</Text>
           <Tooltip
-            label={<div className='flex space-x-2 p-1'><BsClipboardCheck className='text-lg'/><p>Copied article link!</p> </div>}
+            label={<div className='flex items-center space-x-2 p-1'><BsClipboardCheck className='text-lg'/><p>Copied article link!</p> </div>}
             gutter={5}
             placement="center"
             position="bottom"
