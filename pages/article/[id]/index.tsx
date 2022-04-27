@@ -4,7 +4,10 @@ import HeaderMeta from "../../../components/HeaderMeta"
 import Image from 'next/image'
 import prisma from '../../../db'
 import Layout from "../../../components/Layout"
-import { Loader } from '@mantine/core';
+import { Loader, Button, Tooltip } from '@mantine/core';
+import { useClipboard } from '@mantine/hooks';
+import { BsClock, BsClipboardCheck } from 'react-icons/bs'
+import { BiShareAlt } from 'react-icons/bi'
 
 interface Author {
   name: string,
@@ -30,23 +33,45 @@ interface Article {
 
 
 
-const ArticleS = ({ initialArticle  = null } ) => {
-    const router = useRouter()
-    const {id} = router.query
+const ArticleS = ({ article, url  } ) => {
+    const router = useRouter();
+    const clipboard = useClipboard();
   return (
     <Layout>
-      <div className="mt-10">
-          <HeaderMeta title={`${initialArticle?.title ?? " loading"} | Lorem News`} />
-          <div className="w-2/3 lg:w-3/5 m-auto">
-          {initialArticle?.image ? <Image src={initialArticle.image} alt={initialArticle.title} placeholder="blur" blurDataURL={initialArticle.image} layout="responsive" width={170} height={100} sizes="50vw"/> : <Loader color="red" size="lg" variant="bars" />}
+      <div className="w-full px-5 ">
+          <HeaderMeta title={`${article?.initialArticle?.title ?? " loading"} | Lorem News`} />
+          <h1 className="font-semibold text-center text-6xl">{article?.initialArticle?.title ?? " "}</h1>
+          <p className="font-semibold  mt-5">By {article?.initialArticle?.author?.name ?? " "}</p>
+          <p className="font-thin  flex items-center ju gap-2"><BsClock/>{new Date(article?.initialArticle?.publishedDate).toLocaleDateString("hr-HR") ?? " "}</p>
+          <div className="mt-3 flex">
+            <Tooltip
+              label={<div className='flex items-center space-x-2 p-1'><BsClipboardCheck className='text-lg'/><p>Copied article link!</p> </div>}
+              gutter={5}
+              placement="center"
+              position="bottom"
+              radius="md"
+              transition="slide-down"
+              transitionDuration={200}
+              opened={clipboard.copied}
+            >
+              <Button className="text-black text-3xl p-1 hover:bg-black/20 mr-4"  onClick={() => clipboard.copy(`${url}/article/${article.initialArticle.id}`)}>
+                <BiShareAlt  />
+              </Button>
+            </Tooltip>
+            {article?.initialArticle?.categories?.map(categories => <p className=" bg-gradient-to-tr from-black/30 to-white/40  font-semibold rounded-lg inline-block p-2 mx-2" key={categories.category.id}>{categories.category.name}</p>)}
           </div>
-          <p className="font-thin text-gray-500">Author: {initialArticle?.author.name ?? " "}</p>
-          {initialArticle?.categories.map(categories => <p className="bg-blue-600 text-white rounded-lg inline-block p-2 mx-2" key={categories.category.id}>{categories.category.name}</p>)}
-          <p className="font-thin text-gray-500 text-right">{new Date(initialArticle?.publishedDate).toLocaleDateString("hr-HR") ?? " "}</p>
-          <h1 className="font-bold text-center text-2xl">{initialArticle?.title ?? " "}</h1>
+          <div className=" mt-4 lg:w-3/5">
+            <div className=" mb-5  h-[1px] bg-black"/>
+            {article?.initialArticle?.image ? <Image src={article.initialArticle.image} alt={article.initialArticle.title} placeholder="blur" blurDataURL={article.initialArticle.image} layout="responsive" width={170} height={100} sizes="50vw"/> : <Loader color="red" size="lg" variant="bars" />}
+          </div>
+          
          
-          <p className="w-2/3 mt-6 m-auto whitespace-pre-line">{initialArticle?.long ?? " "}</p>
-          <Link href="/"> Go Back</Link>
+          
+          
+          <p className=" mt-6  font-semibold whitespace-pre-line">{article?.initialArticle?.short ?? " "}</p>
+          <p className=" mt-6  whitespace-pre-line">{article?.initialArticle?.long ?? " "}</p>
+           
+           <Link href="/"><Button className="bg-black hover:bg-red-600 text-white  transition-all mt-5">Go Back</Button></Link>
       </div>
     </Layout>
   )
@@ -73,9 +98,11 @@ export const getStaticProps = async (context) => {
     }
   })
   if (initialArticle) {
-    const ArticleParsed = JSON.parse(JSON.stringify({initialArticle}));
     return {
-      props :   ArticleParsed
+      props :   {
+          article : JSON.parse(JSON.stringify({initialArticle})),
+          url : process.env.URL
+        }
     }
   }
 

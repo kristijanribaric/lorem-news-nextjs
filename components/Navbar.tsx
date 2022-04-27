@@ -16,7 +16,6 @@ const Navbar = () => {
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
 	const { data: session, status } = useSession();
 	const router = useRouter();
-	console.log(session)
 
 	const signInWithGoogle = () => {
         <Notification
@@ -79,11 +78,11 @@ const Navbar = () => {
 									<Button variant='default' leftIcon={<FcGoogle/>} className="rounded-full px-12 w-full" onClick={()=> signInWithGoogle()}>Google</Button>
 									<Divider label="Or with" labelPosition='center' className='my-8'/>
 									<Button variant='default' leftIcon={<BsGithub/>} className="rounded-full px-12 w-full" onClick={()=> signInWithGithub()}>Github</Button>
-									</div> : <><Link href="/myarticles" passHref><Menu.Item icon={<BsFillJournalBookmarkFill size={14} />}>My Articles</Menu.Item></Link>
+									</div> : <><Link href="/myarticles" passHref><Menu.Item className='hover:bg-black/20' icon={<BsFillJournalBookmarkFill size={14} />}>My Articles</Menu.Item></Link>
 								<Divider/>
-								<Menu.Item icon={<BsTools size={14} />}>Account settings</Menu.Item>
-								<Menu.Item icon={<BsArrowDownUp size={14} />}>Change account</Menu.Item>
-								<Menu.Item icon={<BsBoxArrowRight size={14} />} onClick={() => signOut()}>Logout</Menu.Item></>}
+								<Menu.Item className='hover:bg-black/20' icon={<BsTools size={14} />}>Account settings</Menu.Item>
+								<Menu.Item className='hover:bg-black/20' icon={<BsArrowDownUp size={14} />}>Change account</Menu.Item>
+								<Menu.Item className='hover:bg-black/20' icon={<BsBoxArrowRight size={14} />} onClick={() => signOut()}>Logout</Menu.Item></>}
 								
 							</Menu>
 							<Burger opened={isOpen} onClick={() => setIsOpen(!isOpen)} className="md:hidden mt-1 mx-3" color="white" />

@@ -23,8 +23,6 @@ import { BiEdit, BiTrashAlt, BiShareAlt } from 'react-icons/bi';
 import { useRouter } from 'next/router';
 
 
-
-
 const useStyles = createStyles((theme) => ({
   card: {
     position: 'relative',
@@ -78,8 +76,6 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
   const { classes } = useStyles();
   const clipboard = useClipboard();
   const [opened, setOpened] = useState(false);
-  const router = useRouter();
-  console.log(articleData)
 
   async function deleteArticle(id: string): Promise<void> {
     await fetch(`/api/delete/${id}`, {

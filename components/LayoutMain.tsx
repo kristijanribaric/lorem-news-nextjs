@@ -10,7 +10,7 @@ const LayoutMain = ({children}) => {
       <HeaderMeta/>
         <Navbar/>
        
-        <div className="mt-24 md:mt-36" >
+        <div className="mt-28 md:mt-44" >
             <main>
                 {children}
             </main>
