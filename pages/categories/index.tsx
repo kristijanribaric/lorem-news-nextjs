@@ -1,12 +1,34 @@
-import React from 'react'
+import prisma from '../../db';
+import CategorySelector from '../../components/CategorySelector';
+import Layout from '../../components/Layout';
+import { useState, useEffect } from 'react';
 
-const Categories = () => {
+const Categories = ({initialCategories}) => {
+  const [count, setCount] = useState(5)
+  const [categories, setCategories] = useState(initialCategories.slice(0,count))
+  
+  useEffect(() => {
+    setCategories(initialCategories.slice(0,count));
+  },[count]);
   return (
-    <div className='w-2/3 m-auto text-center'>
-        <h1 className='text-2xl text-center'>Categories</h1>
-        <p className='w-full lg:w-2/3 m-auto mt-10 text-center uppercase text-gray-300 text-7xl md:text-8xl mb-8'>Coming soon!</p>
-    </div>
+    <Layout>
+      
+      <h1 className='text-2xl'>Categories</h1>
+      {initialCategories && categories.map(category => <CategorySelector key={category.id} categoryName={category.name}/> )}
+      
+      {categories.length !== initialCategories.length && <a className='text-gray-700 cursor-pointer hover:font-medium' onClick={() => setCount(count + 4)}>Load more...</a>}
+        
+    </Layout>
   )
 }
 
-export default Categories
+export default Categories; 
+
+export async function getServerSideProps() {
+  const categories = await prisma.category.findMany({});
+  return {
+      props: {
+        initialCategories : categories
+      }
+  }
+}``

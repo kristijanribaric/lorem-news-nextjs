@@ -33,7 +33,7 @@ interface Article {
 
 
 
-const ArticleS = ({ article, url  } ) => {
+const Articles = ({ article, url  } ) => {
     const router = useRouter();
     const clipboard = useClipboard();
   return (
@@ -130,4 +130,4 @@ export const getStaticPaths = async () => {
 
 
 
-export default ArticleS 
+export default Articles

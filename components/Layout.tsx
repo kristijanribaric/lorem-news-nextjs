@@ -17,7 +17,7 @@ const Layout = ({children}) => {
             exit="exit"
             variants={variants}
             transition={{ type: 'linear' }}
-            className=""
+            className="w-full lg:w-2/3 px-4 m-auto"
         >
             {children}
         </motion.main>

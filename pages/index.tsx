@@ -12,7 +12,7 @@ export default function Home({initialArticles,url}) {
   // const hotTopics = initialArticles[4];
   return (
     <Layout>
-      <div className='w-full lg:w-2/3 px-4 m-auto'>
+      <div>
         {/* <div className='relative mb-12'>
           <h1>Hot Topics</h1>
           <div>
