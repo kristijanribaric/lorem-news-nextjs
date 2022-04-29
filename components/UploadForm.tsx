@@ -236,6 +236,7 @@ const UploadFormTest = ({
           multiple={false}
           {...form.getInputProps('image')}
           disabled={disabled}
+          className="md:w-2/3 m-auto"
         >
           {(status) => (
           <div style={{ pointerEvents: 'none' }}>
@@ -255,19 +256,21 @@ const UploadFormTest = ({
                 : 'Upload image'}
             </Text>
             <Text align="center" size="sm" mt="xs" color="dimmed">
-              Drag&apos;n&apos;drop files or click here to upload. Only <i>.jpeg,.png,.gif,webp</i> smaller than 10mb are accepted.
+              Drag&apos;n&apos;drop files or click here to upload. Only <i>.jpeg/.jpg,.png,.gif,.webp</i> smaller than 10mb are accepted.
             </Text>
           </div>
         )}
         </Dropzone>
         {image?.src ? 
-          <Image
+          <div className="my-4"><Image
             src={image.src}
             alt={image?.alt ?? ''}
             layout="responsive" 
             width={320} 
             height={180}
-          />
+            className="rounded-lg"
+            
+          /></div>
          : null}
 
         <TextInput

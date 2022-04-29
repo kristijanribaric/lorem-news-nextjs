@@ -44,7 +44,7 @@ const Upload = ({initialCategories}) => {
     }
   return (
       <Layout>
-          <div className="max-w-screen-sm mx-auto">
+          <div className="max-w-screen-lg m-auto">
         <h1 className="text-xl font-medium text-gray-800">Article upload</h1>
         <p className="text-gray-500">
           Fill out the form below to add a new article.

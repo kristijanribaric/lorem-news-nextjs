@@ -48,7 +48,7 @@ const Navbar = () => {
 						<Link href="/" passHref>
 							<div className="flex justify-center mx-6 items-center gap-4 flex-shrink-0 cursor-pointer">
 								<Image src='/news_logo_red.png' alt='lorem news logo' width={80} height={80}/>
-								<h1 className='cursor-pointer hidden md:block'>Lorem News</h1>
+								<h1 className='cursor-pointer hidden md:block'>Lorem <span className='text-red-600 font-semibold'>News</span> </h1>
 							</div>
 						</Link>
 						
