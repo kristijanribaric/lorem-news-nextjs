@@ -15,7 +15,7 @@ const Footer = () => {
             <Link passHref href="/"><a className="hover:text-gray-300">My page</a></Link>
         </div>
         <div className="flex justify-center my-4 items-center">
-            <a  target="_blank"  rel="noopener noreferrer" href="https://github.com/kristijanribaric/lorem-news-nextjs" className="text-3xl hover:bg-gray-500"><BsGithub /></a>
+            <a  target="_blank"  rel="noopener noreferrer" href="https://github.com/kristijanribaric/lorem-news-nextjs" className="text-3xl hover:text-gray-500"><BsGithub /></a>
         </div>
     </div>
   )

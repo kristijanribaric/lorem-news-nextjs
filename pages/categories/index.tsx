@@ -42,7 +42,7 @@ const Categories = ({initialCategories}) => {
       
         <div className='flex flex-col my-5'>
           <label className='font-semibold'>Search Categories</label>
-          <input type="text"  className='border-2 border-black rounded-lg p-2' name="searchCategory" id="searchCategory" onChange={inputHandler}/>
+          <input type="search" results={5} className='border-2 border-black rounded-lg p-2' name="searchCategory" onChange={inputHandler}/>
         </div>
       {initialCategories && categories.map(category => <CategorySelector key={category.id} categoryName={category.name}/> )}
       {categories.length === 0 && <p className='text-gray-600'>No categories meet the criteria.</p>}
@@ -61,4 +61,4 @@ export async function getServerSideProps() {
         initialCategories : categories
       }
   }
-}``
+}
