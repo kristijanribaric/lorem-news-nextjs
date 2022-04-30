@@ -39,22 +39,28 @@ export default function Home({initialArticles,url}) {
 
 export async function getServerSideProps() {
   const articles = await prisma.articles.findMany({
-    include: {
+    select: {
+      id: true,
+      image: true,
+      short: true,
+      title: true,
+      publishedDate: true,
       author: {
-        select: { 
-          name: true, 
-          image: true
-        },
+          select: {
+              name: true,
+              image: true
+          }
       },
       categories: {
-        select: { category : {
-          select: {
-            id: true,
-            name: true
-          }
-        }},
+          select: { category : {
+            select: {
+              id: true,
+              name: true
+            }
+          }},
       },
-  }});
+  }
+    });
   return {
       props: {
           initialArticles : JSON.parse(JSON.stringify(articles)),
