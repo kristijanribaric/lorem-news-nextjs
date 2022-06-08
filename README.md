@@ -1,4 +1,5 @@
 News site made with Next.js, fetching data from remote PostgreSQL database. Still in early development.
+Hosted on [https://lorem-news-nextjs.vercel.app](https://lorem-news-nextjs.vercel.app)
 
 ## Getting Started
 
