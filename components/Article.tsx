@@ -9,7 +9,6 @@ import {
   Group,
   Center,
   Avatar,
-  useMantineTheme,
   createStyles,
   Loader,
   Tooltip,
@@ -86,7 +85,6 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
     
   }
     
-
   return (
     <>
     {isEditable && <Modal
@@ -103,7 +101,7 @@ const Article = ({articleData,isEditable,refresher = () => null,url}) => {
     <Card withBorder radius="md" className={classes.card} >
       <Card.Section>
         <Link href='/article/[id]' as={`/article/${articleData.id}`} passHref>
-          <a>{articleData.image ? <Image  src={articleData.image} alt={articleData.title} placeholder="blur" blurDataURL={articleData.image} layout="responsive" width={320}  height={180}/> : <Loader className='m-auto my-10' color="red" size="lg" />}</a>
+          <a>{articleData.image ? <Image  src={articleData.image} alt={articleData.title}  layout="responsive" width={320}  height={180}/> : <Loader className='m-auto my-10' color="red" size="lg" />}</a>
         </Link>
       </Card.Section>
 

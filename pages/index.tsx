@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Article from '../components/Article'
 import  prisma  from '../db'
 import Layout from '../components/Layout'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from 'react-responsive-carousel';
+
 
 
 
@@ -23,6 +26,38 @@ export default function Home({initialArticles,url}) {
             </div>
           </div>
         </div> */}
+        {/* <div className='flex'>
+        <Carousel 
+         autoPlay={true}
+         axis="vertical"
+         infiniteLoop={true}
+         showArrows={false}
+         showStatus={false}
+         interval={6000}
+         showThumbs={false}
+         transitionTime={800}
+         className="mb-6 hidden md:block"
+        
+         
+         
+         >
+                <div>
+                    <Image src={initialArticles[0].image} alt={initialArticles[0].image.split('/').at(-1)} layout="responsive" width={640}  height={320}/>
+                    <p className="legend">{initialArticles[0].title}</p>
+                </div>
+                <div>
+                <Image src={initialArticles[1].image} alt={initialArticles[1].image.split('/').at(-1)} layout="responsive" width={640}  height={320}/>
+                    <p className="legend">{initialArticles[1].title}</p>
+                </div>
+                <div>
+                <Image src={initialArticles[2].image} alt={initialArticles[2].image.split('/').at(-1)}  layout="responsive" width={640}  height={180}/>
+                    <p className="legend">{initialArticles[2].title}</p>
+                </div>
+            </Carousel>
+            <p className='px-3'>{initialArticles[0].short}</p>
+        </div> */}
+        
+
         <div className='grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
         {initialArticles.map(article => {
           article.publishedDate = article.publishedDate.toString();

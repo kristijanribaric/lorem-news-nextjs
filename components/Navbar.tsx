@@ -42,7 +42,7 @@ const Navbar = () => {
     };
   return (
    
-			<div className=" shadow-sm fixed top-0 w-full z-10 mb-24  text-white bg-black">
+			<div className="  fixed top-0 w-full z-10 mb-24  text-white bg-black">
 				<div>
 					<div className='flex justify-between py-2'>
 						<Link href="/" passHref>
@@ -97,10 +97,10 @@ const Navbar = () => {
 						<Tabs.Tab className=' transition-all duration-500 border-none mx-1' label="Upload"/>
 					</Tabs> */}
 					<div className=' justify-center gap-2 hidden md:flex'>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/"})}><Link href="/" passHref>Home</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/about"})}><Link href="/about" passHref>About</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/categories"})}><Link href="/categories" passHref>Categories</Link></div>
-						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300',{'bg-white text-black font-semibold' : router.pathname == "/upload"})}><Link href="/upload" passHref>Upload</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300 hover:bg-white hover:text-black',{'bg-white text-black font-semibold' : router.pathname == "/"})}><Link href="/" passHref>Home</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300 hover:bg-white hover:text-black',{'bg-white text-black font-semibold' : router.pathname == "/about"})}><Link href="/about" passHref>About</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300 hover:bg-white hover:text-black',{'bg-white text-black font-semibold' : router.pathname == "/categories"})}><Link href="/categories" passHref>Categories</Link></div>
+						<div className={classNames('px-4 py-2 rounded-t-lg transition-all duration-300 hover:bg-white hover:text-black',{'bg-white text-black font-semibold' : router.pathname == "/upload"})}><Link href="/upload" passHref>Upload</Link></div>
 					</div>
 				</div>
 

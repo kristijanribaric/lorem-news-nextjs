@@ -38,9 +38,9 @@ const Articles = ({ article, url  } ) => {
     const clipboard = useClipboard();
   return (
     <Layout>
-      <div className="w-full px-5 m-auto lg:w-1/2 ">
+      <div className="w-full px-5 m-auto lg:w-2/3 ">
           <HeaderMeta title={`${article?.initialArticle?.title ?? " loading"} | Lorem News`} />
-          <h1 className="font-semibold text-center text-6xl">{article?.initialArticle?.title ?? " "}</h1>
+          <h1 className="font-semibold  text-4xl md:text-6xl">{article?.initialArticle?.title ?? " "}</h1>
           <p className="font-semibold  mt-5">By {article?.initialArticle?.author?.name ?? " "}</p>
           <p className="font-thin  flex items-center ju gap-2"><BsClock/>{new Date(article?.initialArticle?.publishedDate).toLocaleDateString("hr-HR") ?? " "}</p>
           <div className="mt-3 flex">
@@ -62,7 +62,7 @@ const Articles = ({ article, url  } ) => {
           </div>
           <div className=" mt-4 ">
             <div className=" mb-5  h-[1px] bg-black"/>
-            {article?.initialArticle?.image ? <Image src={article.initialArticle.image} alt={article.initialArticle.title} placeholder="blur" blurDataURL={article.initialArticle.image} layout="responsive" width={170} height={100} sizes="50vw"/> : <Loader color="red" size="lg" variant="bars" />}
+            {article?.initialArticle?.image ? <Image src={article.initialArticle.image} alt={article.initialArticle.title} layout="responsive" width={170} height={100} /> : <Loader color="red" size="lg" variant="bars" />}
           </div>
           
          
@@ -71,7 +71,7 @@ const Articles = ({ article, url  } ) => {
           <p className=" mt-6  font-semibold whitespace-pre-line">{article?.initialArticle?.short ?? " "}</p>
           <p className=" mt-6  whitespace-pre-line">{article?.initialArticle?.long ?? " "}</p>
            
-           <Link href="/"><Button className="bg-black hover:bg-red-600 text-white  transition-all mt-5">Go Back</Button></Link>
+           <Link href="/"><Button className="bg-black hover:bg-red-600 text-white  transition-all mt-5">&larr; Go Back</Button></Link>
       </div>
     </Layout>
   )
